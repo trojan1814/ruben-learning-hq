@@ -16,6 +16,8 @@ Then open **http://localhost:4173**. Stop the server with `Ctrl + C`.
 
 No installs, no `npm install` — it runs on Node's built-in modules only.
 
+To put it on the internet instead, see **[Putting it online](#-putting-it-online-vercel)** below.
+
 ## Two themes
 
 There is a **theme switcher at the top of the sidebar** — one click swaps the
@@ -52,6 +54,81 @@ Everything a theme owns lives in two places:
 Chess character art is in `public/js/sprites.js`, one cast per theme. To add a
 third skin, add an entry to `THEMES`, a matching `SPRITE_SETS` cast, a
 `[data-theme="..."]` block of CSS, and a button to the switcher in `index.html`.
+
+## 🚀 Putting it online (Vercel)
+
+The app runs two ways from one codebase: `server.js` on this PC, and Vercel
+serverless functions when deployed. Both call the **same handler files** in
+`api/`, so local and live can never drift apart.
+
+### Deploy it
+
+Everything is prepared and committed. Two commands, from this folder:
+
+```bash
+npx vercel login
+```
+
+```bash
+npx vercel --prod
+```
+
+The first asks which account to use and opens a browser to sign in. The second
+uploads, runs `build.js` and gives you a live URL. Re-run just the second
+command any time you change something.
+
+> The first upload includes the 37 MB textbook PDF, so give it a minute.
+
+### Then connect the database (5 minutes)
+
+Without it the site still works fully, but progress lives in whichever browser
+he happens to use. With it, progress follows him to any device.
+
+1. Vercel dashboard → your project → **Storage** → **Create Database**
+2. Pick **Upstash Redis** from the Marketplace (there is a free tier)
+3. Connect it to the project — Vercel adds `KV_REST_API_URL` and
+   `KV_REST_API_TOKEN` to the environment automatically
+4. Redeploy: `npx vercel --prod`
+
+`api/state.js` picks those up on its own. Nothing else to configure.
+
+**Parent Zone → Save & Backup** tells you which of the three is actually in use:
+
+| Badge | What it means |
+|---|---|
+| 💾 Saved on this PC | Writing to `data/state.json` — this is the local copy |
+| ☁️ Saved to the cloud | Upstash Redis is connected — progress follows him anywhere |
+| ⚠️ This browser only | Deployed with no database yet — export backups regularly |
+
+### Moving his current progress up
+
+His `data/state.json` does not travel with the deploy. To carry his XP over:
+
+1. On the local copy: **Parent Zone → ⬇️ Export progress** (downloads a dated JSON)
+2. Open the live site: **Parent Zone → ⬆️ Import a backup** → pick that file
+
+Import checks the file is a real Learning HQ backup and shows you the name, XP
+and coins before it overwrites anything. Export is worth doing occasionally
+regardless — it is the only true backup.
+
+### Two things to know about the live copy
+
+- **The URL is public.** Anyone with the link sees his name, XP and weekly
+  schedule, including school and activity times. Vercel's password protection is
+  a paid feature; on the free plan, treat the URL as the only thing keeping it
+  private and do not post it anywhere.
+- **The textbook PDF ships with it.** `books/English/` contains a Cambridge
+  University Press sample, so deploying republishes it on a public URL. Delete
+  the file (or add `books/` to `.vercelignore`) if you would rather it stayed
+  local — the Book Vault handles an empty folder fine.
+
+### What is deployed vs what stays home
+
+| Stays on this PC | Goes live |
+|---|---|
+| `data/state.json` (his progress) | Everything in `public/` |
+| `data/news-cache.json` | `api/` handlers, `news.js`, `build.js` |
+| `Inspo/`, `lesson-plans/` | `books/` (copied in by the build) |
 
 ## Adding his books
 
@@ -384,8 +461,14 @@ file needs touching.
 ## Files
 
 ```
-server.js              zero-dependency Node server + books/state/news API
+server.js              zero-dependency local server (delegates to api/)
+api/state.js           progress: Upstash Redis, local file, or browser-only
+api/books.js           the vault listing
+api/news.js            the news endpoint
 news.js                RSS fetch, kid-safe filter and 3-hour cache
+build.js               deploy build step: stages books/ + writes the manifest
+vercel.json            Vercel config
+package.json           scripts + Node version
 start.bat              double-click launcher
 public/index.html      app shell
 public/sprites.html    sprite-sheet preview of the chess squad
