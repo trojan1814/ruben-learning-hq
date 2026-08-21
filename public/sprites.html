@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Chess Squad — Sprite Sheet</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟️</text></svg>" />
-  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Rajdhani:wght@500;600;700&family=Luckiest+Guy&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Rajdhani:wght@500;600;700&family=Luckiest+Guy&family=Fredoka:wght@500;600;700&family=Black+Ops+One&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/theme.css" />
   <link rel="stylesheet" href="/css/dashboard.css" />
   <link rel="stylesheet" href="/css/mario.css" />
+  <link rel="stylesheet" href="/css/redalert.css" />
   <script src="/js/theme.js"></script>
   <style>
     body { overflow: auto; padding: 34px 28px 60px; }
@@ -30,6 +31,9 @@
     .cell h3 { font-size: 15px; margin-top: 12px; position: relative; }
     .cell .role { font-size: 12.5px; color: var(--rarity); font-weight: 700; margin-top: 3px; position: relative; }
     .cell p { font-size: 11.5px; color: var(--text-dim); line-height: 1.45; margin-top: 8px; position: relative; }
+    .cell h3 .vs { color: var(--text-mut); font-size: 11px; }
+    .cell .foe-lore { color: var(--text-mut); border-top: 1px solid var(--line); padding-top: 8px; }
+    .cell .foe-lore b { color: var(--rarity); }
     .cell .rarity-tag { position: relative; display: inline-block; margin-top: 10px; }
     .onboard { display: grid; grid-template-columns: repeat(8, 1fr); max-width: 520px; margin: 26px 0 0; border: 3px solid var(--board-frame); border-radius: 10px; overflow: hidden; }
     .obs { aspect-ratio: 1; display: grid; place-items: center; }
@@ -47,6 +51,7 @@
     <div class="theme-switch picker">
       <button data-theme-pick="hq"><span>🎮</span> Battle HQ</button>
       <button data-theme-pick="mario"><span>🍄</span> Mario</button>
+      <button data-theme-pick="ra3"><span>🚨</span> Red Alert</button>
     </div>
 
     <div class="sheet" id="sheet"></div>
@@ -61,23 +66,31 @@
   <script>
     const ROLE = { k: 'King', q: 'Queen', r: 'Rook', b: 'Bishop', n: 'Knight', p: 'Pawn' };
 
+    const SUBS = {
+      mario: 'Rarity climbs with the piece. True colours = your crew, shadow = Bowser\u2019s crew.',
+      ra3:   'Rarity climbs with the piece. Two different armies \u2014 Allied blue is yours, Soviet red is the enemy.',
+      hq:    'Rarity climbs with the piece. Light armour = your squad, dark armour = the enemy.',
+    };
+
     function draw() {
-      document.getElementById('sub').textContent =
-        themeId === 'mario'
-          ? 'Rarity climbs with the piece. True colours = your crew, shadow = Bowser\u2019s crew.'
-          : 'Rarity climbs with the piece. Light armour = your squad, dark armour = the enemy.';
+      document.getElementById('sub').textContent = SUBS[themeId] || SUBS.hq;
 
       document.getElementById('sheet').innerHTML = ROSTER_ORDER.map((t) => {
-        const st = pieceStyle(t);
-        return `<div class="panel clip cell" style="--rarity:var(--r-${st.rarity})">
+        const mine = pieceStyle(t, 'w');
+        const theirs = pieceStyle(t, 'b');
+        /* Red Alert fields two separate armies, so each side gets its own
+           name and bio; the other casts share one character. */
+        const split = theirs.name !== mine.name;
+        return `<div class="panel clip cell" style="--rarity:var(--r-${mine.rarity})">
           <div class="pair">
             <div><div class="art">${pieceSprite(t, 'w')}</div><div class="team">${C('you')}</div></div>
             <div><div class="art">${pieceSprite(t, 'b')}</div><div class="team">${C('foe')}</div></div>
           </div>
-          <h3>${st.name}</h3>
+          <h3>${split ? mine.name + ' <span class="vs">vs</span> ' + theirs.name : mine.name}</h3>
           <div class="role">${PIECE_GLYPH[t]} ${ROLE[t]}</div>
-          <p>${pieceLore(t)}</p>
-          <span class="rarity-tag" style="--rarity:var(--r-${st.rarity})">${rarityLabel(st.rarity)}</span>
+          <p>${pieceLore(t, 'w')}</p>
+          ${split ? `<p class="foe-lore"><b>${C('foe')}:</b> ${pieceLore(t, 'b')}</p>` : ''}
+          <span class="rarity-tag" style="--rarity:var(--r-${mine.rarity})">${rarityLabel(mine.rarity)}</span>
         </div>`;
       }).join('');
 

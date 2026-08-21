@@ -482,7 +482,7 @@ const ChessGame = {
       const { dx, dy } = mainOff;
       const victimCell = board.querySelector('[data-sq="' + victimSq + '"]');
       const victimEl = victimCell && victimCell.querySelector('.cpiece');
-      const vColor = pieceStyle(victim[1]).accent;
+      const vColor = pieceStyle(victim[1], victim[0]).accent;
 
       // 1. Charge in, stopping just short of contact.
       await this.settle(main.animate([
@@ -595,13 +595,13 @@ const ChessGame = {
       <div class="section-head" style="margin-top:30px"><h2>${C('squad')}</h2><div class="rule"></div>
         <span class="pill">${C('squadHint')}</span></div>
       <div class="roster">${ROSTER_ORDER.map((t) => {
-        const st = pieceStyle(t);
+        const st = pieceStyle(t, 'w');
         return `<div class="panel clip roster-card" style="--rarity:var(--r-${st.rarity})">
           <div class="roster-art">${pieceSprite(t, 'w')}</div>
           <span class="rarity-tag" style="--rarity:var(--r-${st.rarity})">${rarityLabel(st.rarity)}</span>
           <h4>${st.name}</h4>
           <div class="roster-piece">${PIECE_GLYPH[t]} ${this.ROLE[t]}</div>
-          <p>${pieceLore(t)}</p>
+          <p>${pieceLore(t, 'w')}</p>
         </div>`;
       }).join('')}</div>`;
 
@@ -729,7 +729,7 @@ const ChessGame = {
       <p class="muted" style="font-size:14px;margin-top:6px">${C('promoSub')}</p>
       <div class="promo-row">
         ${['q', 'r', 'b', 'n'].map((t) => {
-          const st = pieceStyle(t);
+          const st = pieceStyle(t, 'w');
           return `<button class="promo-pick" data-promo="${t}" style="--rarity:var(--r-${st.rarity})">
             <div class="promo-art">${pieceSprite(t, 'w')}</div>
             <b>${st.name}</b>
@@ -814,7 +814,7 @@ const ChessGame = {
     const res = await this.commit(m);
     if (!res) return;
     if (res.victim && typeof toast === 'function') {
-      toast(C('youHit').replace('{name}', pieceStyle(res.victim[1]).name));
+      toast(C('youHit').replace('{name}', pieceStyle(res.victim[1], res.victim[0]).name));
     }
     await this.afterMove();
   },
@@ -850,7 +850,7 @@ const ChessGame = {
     const res = await this.commit(m);
     if (!res) return;
     if (res.victim && typeof toast === 'function') {
-      toast(C('foeHit').replace('{name}', pieceStyle(res.victim[1]).name));
+      toast(C('foeHit').replace('{name}', pieceStyle(res.victim[1], res.victim[0]).name));
     }
 
     const st2 = ChessEngine.status(this.state);

@@ -1,0 +1,238 @@
+/* ============================================================
+   RED ALERT 3 SKIN
+   Loaded last; everything here is scoped to [data-theme="ra3"].
+   The battle-royale skin is the default and is left untouched.
+
+   Look: an Allied war room. Gunmetal panels, stencil type, hazard
+   stripes, alert red for anything urgent and Allied blue for
+   anything you are supposed to click. Boards are olive-drab map
+   squares, so the blue army and the red army both read clearly.
+   ============================================================ */
+
+[data-theme="ra3"] {
+  /* Surfaces — cold rolled steel */
+  --bg-deep:   #070a0e;
+  --bg:        #0d1218;
+  --surface:   #151c25;
+  --surface-2: #1d2733;
+  --surface-3: #293544;
+  --line:      #3a4959;
+
+  /* Accents — Allied blue leads, Soviet red is the alarm */
+  --cyan:    #3f9bf0;  /* Allied blue, the "primary" accent */
+  --violet:  #c8342c;  /* Soviet red */
+  --magenta: #ff3b30;  /* alert red */
+  --yellow:  #ffc61a;  /* brass */
+  --lime:    #5fbf72;  /* all-clear green */
+  --orange:  #ff8c1a;  /* ordnance orange */
+
+  /* Text — briefing paper on steel */
+  --text:     #e7eef7;
+  --text-dim: #97a8bb;
+  --text-mut: #62768c;
+
+  /* Rarity ladder — same order, service colours */
+  --r-common:    #93a2b2;
+  --r-uncommon:  #5fbf72;
+  --r-rare:      #3f9bf0;
+  --r-epic:      #a58bff;
+  --r-legendary: #ffc61a;
+  --r-mythic:    #ff5b4a;
+
+  /* Boards — a battlefield map, not a chess set */
+  --sq-light: #6e7b60;
+  --sq-dark:  #3c4636;
+  --board-frame: #47523a;
+  --ludo-bg: #141a13;
+  --ludo-track: #232c20;
+  --ludo-safe: #303a2c;
+
+  --radius: 6px;
+  --cut: 12px;
+  --shadow: 0 16px 40px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .04);
+  --glow: 0 0 22px rgba(255, 59, 48, .3);
+
+  --font-display: 'Black Ops One', 'Russo One', 'Arial Black', system-ui, sans-serif;
+  --font-ui: 'Barlow Condensed', 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Barlow Condensed runs narrow — give the whole skin a little more size
+   so the body copy stays as readable as it is on the other two. */
+[data-theme="ra3"] body {
+  font-size: 17.5px;
+  background:
+    radial-gradient(900px 600px at 50% -12%, rgba(255, 59, 48, .16), transparent 62%),
+    radial-gradient(1000px 700px at 8% 8%, rgba(63, 155, 240, .12), transparent 58%),
+    radial-gradient(900px 700px at 96% 100%, rgba(200, 52, 44, .1), transparent 60%),
+    var(--bg-deep);
+  color: var(--text);
+}
+
+/* Scan lines + hazard stripes instead of the HUD grid */
+[data-theme="ra3"] body::before {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, .028) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(45deg, rgba(255, 198, 26, .035) 0 14px, transparent 14px 28px);
+  background-size: auto, auto;
+}
+
+[data-theme="ra3"] h1,
+[data-theme="ra3"] h2,
+[data-theme="ra3"] h3,
+[data-theme="ra3"] h4 { letter-spacing: .6px; }
+
+[data-theme="ra3"] :focus-visible { outline: 2px solid var(--magenta); outline-offset: 3px; }
+[data-theme="ra3"] ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
+
+/* ---------- Panels are stamped steel plate ---------- */
+[data-theme="ra3"] .panel {
+  background: linear-gradient(165deg, rgba(29, 39, 51, .95), rgba(15, 21, 28, .95));
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .05);
+}
+
+/* ---------- Buttons: stencilled, hard-edged ---------- */
+[data-theme="ra3"] .btn {
+  letter-spacing: 1.4px;
+  border: 1px solid rgba(255, 255, 255, .14);
+}
+[data-theme="ra3"] .btn-primary {
+  --btn-bg: linear-gradient(160deg, #4aa6f5, #1c5fae);
+  color: #f2f8ff;
+  border-color: #1a4f92;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .45);
+  box-shadow: 0 8px 22px rgba(63, 155, 240, .28);
+}
+[data-theme="ra3"] .btn-primary:hover { box-shadow: 0 12px 30px rgba(63, 155, 240, .42); }
+[data-theme="ra3"] .btn-hot {
+  --btn-bg: linear-gradient(160deg, #ff5b4a, #a81c14);
+  color: #fff4f2;
+  border-color: #8c1c10;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .45);
+  box-shadow: 0 8px 22px rgba(255, 59, 48, .3);
+}
+[data-theme="ra3"] .btn-ghost:hover { color: var(--text); border-color: var(--cyan); }
+
+[data-theme="ra3"] .rarity-tag { color: #08111a; }
+
+[data-theme="ra3"] .xpbar > span {
+  background: linear-gradient(90deg, var(--cyan), var(--yellow) 60%, var(--magenta));
+  box-shadow: 0 0 14px rgba(63, 155, 240, .5);
+}
+
+/* ============ SIDEBAR / RAIL ============ */
+[data-theme="ra3"] .sidebar,
+[data-theme="ra3"] .rail {
+  background: linear-gradient(180deg, rgba(21, 28, 37, .9), rgba(7, 10, 14, .92));
+}
+[data-theme="ra3"] .sidebar { border-right: 1px solid var(--line); }
+
+[data-theme="ra3"] .brand-mark {
+  background: linear-gradient(160deg, #ff5b4a, #8c1c10);
+  box-shadow: 0 0 22px rgba(255, 59, 48, .45);
+}
+[data-theme="ra3"] .brand-text span { color: var(--magenta); letter-spacing: 1.6px; }
+
+[data-theme="ra3"] .player-avatar {
+  background: linear-gradient(160deg, #4aa6f5, #1c5fae);
+  box-shadow: 0 0 24px rgba(63, 155, 240, .5);
+}
+[data-theme="ra3"] .player-level { color: var(--yellow); }
+
+[data-theme="ra3"] .theme-switch button.on {
+  background: linear-gradient(135deg, rgba(255, 59, 48, .3), rgba(63, 155, 240, .26));
+  border-color: rgba(255, 91, 74, .6);
+  box-shadow: 0 0 14px -3px var(--magenta);
+}
+
+[data-theme="ra3"] .nav-item.active {
+  background: linear-gradient(90deg, rgba(255, 59, 48, .18), transparent);
+  border-left-color: var(--magenta);
+}
+[data-theme="ra3"] .nav-item .badge { background: var(--magenta); }
+
+[data-theme="ra3"] .coin-box {
+  background: linear-gradient(160deg, rgba(255, 198, 26, .16), rgba(21, 28, 37, .9));
+  border-color: rgba(255, 198, 26, .35);
+}
+[data-theme="ra3"] .coin-box .amt { color: var(--yellow); }
+
+/* ============ TOPBAR / HERO ============ */
+[data-theme="ra3"] .topbar .greeting { color: var(--magenta); letter-spacing: 1.4px; }
+[data-theme="ra3"] .topbar h2 em { color: var(--cyan); font-style: normal; }
+[data-theme="ra3"] .streak-chip { border-color: rgba(255, 198, 26, .3); }
+
+[data-theme="ra3"] .hero {
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 198, 26, .05) 0 12px, transparent 12px 24px),
+    linear-gradient(115deg, rgba(200, 52, 44, .5), rgba(21, 28, 37, .95) 58%, rgba(28, 95, 174, .45));
+  border: 1px solid rgba(255, 91, 74, .35);
+}
+[data-theme="ra3"] .hero-tier .n { color: var(--yellow); }
+
+/* ============ GAMES — chess front ============ */
+[data-theme="ra3"] .cboard {
+  border: 4px solid var(--board-frame);
+  border-radius: 4px;
+  box-shadow: 0 22px 55px rgba(0, 0, 0, .75), 0 0 0 2px rgba(255, 198, 26, .18);
+}
+[data-theme="ra3"] .csq .coord { color: rgba(255, 255, 255, .34); }
+[data-theme="ra3"] .csq.last::before { background: rgba(255, 198, 26, .26); }
+[data-theme="ra3"] .csq.sel { box-shadow: inset 0 0 0 3px var(--yellow); }
+[data-theme="ra3"] .csq.target::after {
+  background: var(--cyan); box-shadow: 0 0 12px var(--cyan);
+}
+[data-theme="ra3"] .csq.capture::after {
+  border-color: var(--magenta); box-shadow: 0 0 14px var(--magenta);
+}
+[data-theme="ra3"] .csq.check {
+  background: radial-gradient(circle, rgba(255, 59, 48, .8), transparent 72%), #5c1210;
+}
+/* Both armies are drawn in full colour, so the rim light that separates the
+   dark cast from the board on the other skins would only muddy them. */
+[data-theme="ra3"] .cpiece.foe svg {
+  filter: drop-shadow(0 0 3px rgba(255, 91, 74, .5)) drop-shadow(0 3px 5px rgba(0, 0, 0, .7));
+}
+[data-theme="ra3"] .cpiece.mine svg {
+  filter: drop-shadow(0 0 3px rgba(63, 155, 240, .45)) drop-shadow(0 3px 5px rgba(0, 0, 0, .7));
+}
+
+[data-theme="ra3"] .status-card { border-left-width: 5px; }
+[data-theme="ra3"] .status-card.go   { border-left-color: var(--cyan);    background: linear-gradient(100deg, rgba(63, 155, 240, .18), transparent 60%); }
+[data-theme="ra3"] .status-card.wait { border-left-color: var(--violet);  background: linear-gradient(100deg, rgba(200, 52, 44, .18), transparent 60%); }
+[data-theme="ra3"] .status-card.warn { border-left-color: var(--magenta); background: linear-gradient(100deg, rgba(255, 59, 48, .22), transparent 60%); }
+
+[data-theme="ra3"] .diff-btn.on {
+  border-color: var(--magenta);
+  background: linear-gradient(135deg, rgba(255, 59, 48, .28), transparent);
+}
+[data-theme="ra3"] .thinking-dots i { background: var(--magenta); }
+[data-theme="ra3"] .over-card h3 { letter-spacing: 1.4px; }
+[data-theme="ra3"] .fx-word { text-shadow: 0 0 16px var(--fx, #fff), 0 3px 0 rgba(0, 0, 0, .6); }
+
+/* ============ TOASTS ============ */
+[data-theme="ra3"] .toast {
+  background: linear-gradient(160deg, #232f3d, #101820);
+  border: 1px solid rgba(255, 91, 74, .45);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .7), inset 3px 0 0 var(--magenta);
+}
+[data-theme="ra3"] .toast.gold { box-shadow: 0 10px 30px rgba(0, 0, 0, .7), inset 3px 0 0 var(--yellow); }
+
+/* ============ LESSONS · QUIZ · PAGES ============ */
+[data-theme="ra3"] .teach-card { border-left: 4px solid var(--cyan); }
+[data-theme="ra3"] .teach-card h4 { color: var(--cyan); }
+[data-theme="ra3"] .opt.sel { border-color: var(--cyan); }
+[data-theme="ra3"] .opt.wrong { border-color: var(--magenta); }
+[data-theme="ra3"] .notice { border-color: rgba(255, 198, 26, .35); }
+[data-theme="ra3"] .notice b { color: var(--yellow); }
+[data-theme="ra3"] .safety-banner { border-color: rgba(255, 59, 48, .5); }
+[data-theme="ra3"] .safety-banner h4 { color: var(--magenta); }
+[data-theme="ra3"] .quiz-timer.low { color: var(--magenta); border-color: var(--magenta); }
+[data-theme="ra3"] .pw-now { background: var(--magenta); color: #fff; }
+[data-theme="ra3"] .day-col.is-today { border-color: var(--magenta); }
+[data-theme="ra3"] .day-col.is-today .day-head { color: var(--magenta); }
+
+[data-theme="ra3"] .hi { color: var(--yellow); }
+[data-theme="ra3"] .hi-ok { color: var(--lime); }
+[data-theme="ra3"] .hi-code { color: var(--cyan); }
+[data-theme="ra3"] .btn-danger { color: var(--magenta); border-color: var(--magenta); }

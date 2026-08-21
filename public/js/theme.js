@@ -1,11 +1,12 @@
 /* ============================================================
    THEMES
-   Two complete skins for the whole app:
+   Three complete skins for the whole app:
      hq    - the original battle-royale HUD (dark, neon, angular)
      mario - Super Mario (bright sky, blocks, chunky and round)
+     ra3   - Red Alert 3 (gunmetal war room, Allies vs Soviets)
 
    A theme owns three things:
-     1. a CSS token set        -> css/theme.css + css/mario.css
+     1. a CSS token set        -> css/theme.css + mario.css + redalert.css
      2. every piece of wording -> LABELS below
      3. the chess/ludo cast    -> chess/ludo blocks below + js/sprites.js
 
@@ -322,9 +323,160 @@ const THEMES = {
       fourth: { icon: '🎲', title: 'Good Game', msg: 'The dice were not on your side this time.' },
     },
   },
+
+  /* ---------------------------------------------------------- */
+  ra3: {
+    id: 'ra3',
+    name: 'Red Alert',
+    icon: '🚨',
+    blurb: 'Allied war room',
+
+    L: {
+      'brand.mark': '🚨',
+      'brand.title': 'Allied Command',
+      'brand.season': 'Operation One',
+      'player.avatar': '🎖️',
+      'player.level': 'Rank',
+      'coins.label': 'War Funds',
+      'coins.icon': '💰',
+
+      'nav.group.main': 'War Room',
+      'nav.group.adult': 'High Command',
+      'nav.home': 'Command Center',
+      'nav.subjects': 'Combat Zones',
+      'nav.games': 'War Games',
+      'nav.battlepass': 'Medal Board',
+      'nav.vault': 'Intel Archive',
+      'nav.parent': 'High Command',
+      'nav.news': 'Global Feed',
+      'ico.news': '📡',
+      'page.news': 'Global Feed',
+      'news.lead': '📡 Priority intel',
+      'news.more': '🗞️ More off the wire',
+      'nav.olympiad': 'Olympiad Front',
+      'nav.schedule': 'Battle Plan',
+      'nav.hobbies': 'Off-Duty',
+      'ico.olympiad': '🇮🇳',
+      'ico.schedule': '🗓️',
+      'ico.hobbies': '🎹',
+      'page.olympiad': 'Olympiad Front',
+      'page.schedule': 'Battle Plan',
+      'page.hobbies': 'Off-Duty',
+      'ico.home': '🛰️',
+      'ico.subjects': '🎯',
+      'ico.games': '🎮',
+      'ico.battlepass': '🎖️',
+      'ico.vault': '🗄️',
+      'ico.parent': '⭐',
+
+      'greeting.suffix': 'Commander',
+      'topbar.streak': 'Days Deployed',
+      'topbar.streakIcon': '⚡',
+      'topbar.resume': '▶ Deploy',
+      'rail.quests': 'Daily Objectives',
+      'rail.schedule': "Today's Orders",
+      'rail.stats': 'Service Record',
+      'stat.lessons': 'Ops Run',
+      'stat.xp': 'Total XP',
+      'stat.quests': 'Objectives',
+      'stat.tier': 'Medal',
+      'rail.restday': 'Stand down, Commander. Go outside. 🌤️',
+
+      'page.home': 'Report In, <em>{name}</em>',
+      'page.subjects': 'Combat Zones',
+      'page.games': 'War Games',
+      'page.battlepass': 'Medal Board',
+      'page.vault': 'Intel Archive',
+      'page.parent': 'High Command',
+      'page.chess': '♟️ Chess <em>Front</em>',
+      'page.ludo': '🎲 Ludo <em>Offensive</em>',
+
+      'tier.word': 'Medal',
+      'tier.current': 'Current Medal',
+      'hero.title': '🎖️ Medal Board · Operation One',
+      'hero.progress': 'Operation Progress',
+      'hero.done': 'Every medal pinned. Hero of the Alliance. 🎖️',
+      'home.subjects': '🎯 Combat Zones',
+      'home.games': '🎮 War Games',
+      'subjects.units': '📚 Briefings',
+      'back.subjects': '← All combat zones',
+      'back.games': '← War Games',
+
+      'xp.word': 'XP',
+      'levelup': '🎖️ PROMOTED! You are now rank {n}',
+      'tierup': '🎖️ MEDAL {n} AWARDED!',
+      'allquests': "🎉 All of today's objectives cleared!",
+
+      'lesson.learn': '📖 Read the briefing',
+      'lesson.ready': 'Ready?',
+      'lesson.start': '▶ Begin Mission',
+      'quiz.results': '🏁 Debrief',
+      'res.perfect': 'FLAWLESS OPERATION!',
+      'res.great': 'Outstanding work, Commander!',
+      'res.pass': 'Mission accomplished!',
+      'res.fail': 'Mission failed — redeploy',
+      'res.coins': 'War Funds',
+    },
+
+    rarity: {
+      common: 'STANDARD', uncommon: 'VETERAN', rare: 'ELITE',
+      epic: 'HEROIC', legendary: 'COMMANDO', mythic: 'SUPREME',
+    },
+
+    chess: {
+      squad: '🎖️ Allied Task Force',
+      squadHint: 'Top clearance → standard issue',
+      you: 'Allied', foe: 'Soviet',
+      ko: { p: 'DOWN!', n: 'SCRAPPED!', b: 'SHOT DOWN!', r: 'DESTROYED!', q: 'ELIMINATED!', k: 'REGIME DOWN!' },
+      youHit: '💥 You destroyed their {name}!',
+      foeHit: '☭ The Soviets destroyed your {name}!',
+      thinking: 'Soviet command is planning',
+      yourMove: '🎯 Your orders, Commander',
+      foeMove: 'Soviet forces advancing…',
+      moving: '⚡ Units moving…',
+      incoming: '💢 Incoming!',
+      youCheck: '🚨 RED ALERT — the President is under fire!',
+      foeCheck: '⚔️ Cherdenko is pinned down!',
+      moves: '{n} legal orders available',
+      holdOn: 'Stand by…',
+      holdStill: 'Hold position…',
+      noMoves: 'No orders yet — the Allies move first, Commander.',
+      trayYou: 'You destroyed', trayFoe: 'They destroyed',
+      promoTitle: '⭐ FIELD PROMOTION!',
+      promoSub: 'Your Peacekeeper reached the Soviet line. Pick their new commission.',
+      win: { icon: '🎖️', title: 'VICTORY!', msg: 'Checkmate. The Premier is captured — the Allies hold the field.' },
+      loss: { icon: '☭', title: 'DEFEAT', msg: 'Checkmate. Cherdenko took the President — run the operation again.' },
+      stale: { icon: '🤝', title: 'Stalemate', msg: 'No legal moves and no check. Ceasefire — it is a draw.' },
+      draw: { icon: '🤝', title: 'Ceasefire' },
+      log: 'Battle Log', tray: 'Casualties', diff: 'Threat Level', speedHead: 'Animation Speed',
+      newGame: '⟲ New Operation',
+      levels: {
+        recruit: { label: 'Cadet',         blurb: 'Makes mistakes — start here' },
+        soldier: { label: 'Conscript',     blurb: 'Spots simple traps' },
+        elite:   { label: 'Shock Trooper', blurb: 'Plays to win' },
+        legend:  { label: 'Cherdenko',     blurb: 'Thinks 4 moves ahead' },
+      },
+    },
+
+    ludo: {
+      trophy: '🎖️',
+      squads: 'Commanders',
+      squadWord: 'commander',
+      players: [
+        { name: 'Yuriko',  short: 'Yuriko',  icon: '🟢' },
+        { name: 'Yoshiro', short: 'Yoshiro', icon: '🟡' },
+        { name: 'Tanya',   short: 'Tanya',   icon: '🔵' },
+        { name: 'Natasha', short: 'Natasha', icon: '🔴' },
+      ],
+      first:  { icon: '🎖️', title: 'TOTAL VICTORY!', msg: 'All four units home first. Nobody laid a finger on you.' },
+      second: { icon: '🥈', title: '2nd Place', msg: 'So close — one commander beat you to it.' },
+      third:  { icon: '🥉', title: '3rd Place', msg: 'Solid run. Podium finish.' },
+      fourth: { icon: '🎲', title: 'Good Game', msg: 'The dice were not on your side this time.' },
+    },
+  },
 };
 
-const THEME_ORDER = ['hq', 'mario'];
+const THEME_ORDER = ['hq', 'mario', 'ra3'];
 const DEFAULT_THEME = 'hq';
 
 let themeId = DEFAULT_THEME;

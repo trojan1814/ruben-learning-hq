@@ -18,28 +18,30 @@ No installs, no `npm install` — it runs on Node's built-in modules only.
 
 To put it on the internet instead, see **[Putting it online](#-putting-it-online-vercel)** below.
 
-## Two themes
+## Three themes
 
 There is a **theme switcher at the top of the sidebar** — one click swaps the
-entire app between two complete skins:
+entire app between three complete skins:
 
-| | 🎮 **Battle HQ** | 🍄 **Super Mario** |
-|---|---|---|
-| Look | Dark neon HUD, angular panels | Blue sky, cream blocks, thick brown outlines |
-| Fonts | Russo One / Rajdhani | Luckiest Guy / Fredoka |
-| Home | Home Base | Peach's Castle |
-| Subjects | Mission Zones | Worlds |
-| Rewards | Battle Pass · Tiers · Star Coins | Star Road · Stars · Gold Coins |
-| Rarity | Common → Mythic | Mushroom → Rainbow Star |
-| Chess squad | Recruit, Beast Scout, Tech Oracle, Fortress, Storm Queen, Supreme King | Goomba, Yoshi, Toad, Thwomp, Princess Peach, Mario |
-| Chess levels | Recruit / Soldier / Elite / Legend | Goomba / Koopa / Hammer Bro / Bowser |
-| Ludo squads | Green / Gold / Blue / Red | Luigi / Wario / Toad / Mario |
-| Knockouts | `K.O.` `SMASHED!` `ELIMINATED!` | `STOMP!` `SMASH!` `WAHOO!` `MAMMA MIA!` |
+| | 🎮 **Battle HQ** | 🍄 **Super Mario** | 🚨 **Red Alert** |
+|---|---|---|---|
+| Look | Dark neon HUD, angular panels | Blue sky, cream blocks, thick brown outlines | Gunmetal war room, scan lines, hazard stripes |
+| Fonts | Russo One / Rajdhani | Luckiest Guy / Fredoka | Black Ops One / Barlow Condensed |
+| Home | Home Base | Peach's Castle | Command Center |
+| Subjects | Mission Zones | Worlds | Combat Zones |
+| Rewards | Battle Pass · Tiers · Star Coins | Star Road · Stars · Gold Coins | Medal Board · Medals · War Funds |
+| Rarity | Common → Mythic | Mushroom → Rainbow Star | Standard → Supreme |
+| Chess squad | Recruit, Beast Scout, Tech Oracle, Fortress, Storm Queen, Supreme King | Goomba, Yoshi, Toad, Thwomp, Princess Peach, Mario | Peacekeeper, Attack Dog, Cryocopter, Guardian Tank, Tanya, President Ackerman |
+| Chess levels | Recruit / Soldier / Elite / Legend | Goomba / Koopa / Hammer Bro / Bowser | Cadet / Conscript / Shock Trooper / Cherdenko |
+| Ludo squads | Green / Gold / Blue / Red | Luigi / Wario / Toad / Mario | Yuriko / Yoshiro / Tanya / Natasha |
+| Knockouts | `K.O.` `SMASHED!` `ELIMINATED!` | `STOMP!` `SMASH!` `WAHOO!` `MAMMA MIA!` | `DOWN!` `SHOT DOWN!` `DESTROYED!` `REGIME DOWN!` |
 
 It is the whole app, not a colour swap: wording, icons, chess sprites, the ludo
 cast, the board colours, the win and lose screens and the quiz results all
 change. Chess in the Mario theme is Team Mario against Bowser's crew — the same
-characters cast in shadow.
+characters cast in shadow. **Red Alert goes further: the Allies and the Soviets are
+two separately drawn armies**, so white is a blue USA task force and black is a red
+Soviet one, right down to different names and different bios for the same square.
 
 The choice is saved per browser and in `data/state.json`, so it survives a restart.
 
@@ -48,12 +50,18 @@ The choice is saved per browser and in `data/state.json`, so it survives a resta
 Everything a theme owns lives in two places:
 
 - `public/js/theme.js` — every word, icon, character name and result screen.
-- `public/css/mario.css` — the Mario colour tokens and component overrides
-  (the default skin's tokens are at the top of `public/css/theme.css`).
+- `public/css/mario.css` and `public/css/redalert.css` — that skin's colour tokens
+  and component overrides (the default skin's tokens are at the top of
+  `public/css/theme.css`).
 
 Chess character art is in `public/js/sprites.js`, one cast per theme. To add a
-third skin, add an entry to `THEMES`, a matching `SPRITE_SETS` cast, a
-`[data-theme="..."]` block of CSS, and a button to the switcher in `index.html`.
+fourth skin, add an entry to `THEMES` and to `THEME_ORDER`, a matching
+`SPRITE_SETS` cast, a `[data-theme="..."]` block of CSS, and a button to the
+switcher in `index.html` (and in `sprites.html`).
+
+A cast may optionally carry a `sides` map — that is how Red Alert gives the two
+armies different names, accent colours and bios for the same piece, and why
+`pieceStyle()` and `pieceLore()` take an optional side argument.
 
 ## 🚀 Putting it online (Vercel)
 
@@ -220,20 +228,23 @@ Four difficulty levels, so it grows with him:
 
 **The squad.** Each piece is a character, and the rarity climbs with the piece — exactly
 the ladder Ruben asked for. In the **Battle HQ** theme they are original battle-royale
-troopers; in the **Super Mario** theme the same ladder is the Mushroom Kingdom crew:
+troopers; in **Super Mario** the same ladder is the Mushroom Kingdom crew; in
+**Red Alert** it is the Allies against the Soviets:
 
-| Piece | 🎮 Battle HQ | 🍄 Mario | Rarity |
-|---|---|---|---|
-| King | Supreme King | Mario | 🔶 Mythic |
-| Queen | Storm Queen | Princess Peach | 🟡 Legendary |
-| Rook | Fortress | Thwomp | 🟣 Epic |
-| Bishop | Tech Oracle | Toad | 🔵 Rare |
-| Knight | Beast Scout | Yoshi | 🟢 Uncommon |
-| Pawn | Recruit | Goomba | ⚪ Common |
+| Piece | 🎮 Battle HQ | 🍄 Mario | 🚨 Allied (white) | 🚨 Soviet (black) | Rarity |
+|---|---|---|---|---|---|
+| King | Supreme King | Mario | President Ackerman | Premier Cherdenko | 🔶 Mythic |
+| Queen | Storm Queen | Princess Peach | Tanya | Natasha | 🟡 Legendary |
+| Rook | Fortress | Thwomp | Guardian Tank | Hammer Tank | 🟣 Epic |
+| Bishop | Tech Oracle | Toad | Cryocopter | Twinblade | 🔵 Rare |
+| Knight | Beast Scout | Yoshi | Attack Dog | War Bear | 🟢 Uncommon |
+| Pawn | Recruit | Goomba | Peacekeeper | Conscript | ⚪ Common |
 
 In Battle HQ your squad wears light armour and the enemy wears dark; in Mario your crew is
-in true colour and Bowser’s crew is the same character cast in shadow. Promote a Pawn and
-you pick which skin it respawns as. See both casts side by side at
+in true colour and Bowser’s crew is the same character cast in shadow. Red Alert is the odd
+one out — both armies are drawn from scratch, so you are commanding a blue USA task force
+across an olive-drab map against a red Soviet one. Promote a Pawn and you pick which skin
+it respawns as. See all three casts side by side at
 **http://localhost:4173/sprites.html** — that page has its own theme switcher.
 
 **Combat animations.** Ordinary moves glide across the board (Knights physically leap).
@@ -500,10 +511,11 @@ public/index.html      app shell
 public/sprites.html    sprite-sheet preview of the chess squad
 public/css/theme.css   default (Battle HQ) tokens, fonts, buttons, XP bars
 public/css/mario.css   the Super Mario skin — tokens + component overrides
+public/css/redalert.css  the Red Alert 3 skin — tokens + component overrides
 public/css/dashboard.css  layout and page components
 public/css/games.css   chess + ludo boards
 public/css/pages.css   olympiad, schedule and hobbies components
-public/js/theme.js     >> BOTH THEMES <<  every label, icon, name and result screen
+public/js/theme.js     >> ALL THREE THEMES <<  every label, icon, name and result screen
 public/js/data.js      subject metadata, games, quests, battle pass
 public/js/curriculum/  >> ALL LESSONS & QUESTIONS <<  one file per subject
 public/js/olympiad/    Indian Talent Olympiad: exam facts, plan, 4 mock papers
