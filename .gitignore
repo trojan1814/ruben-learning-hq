@@ -16,3 +16,10 @@ data/news-cache.json
 
 .vercel
 .env*
+
+# Agent docs installed by the Upstash marketplace integration.
+# Machine-specific (the .claude/skills entries are absolute symlinks) and
+# nothing to do with the app itself.
+.agents/
+.claude/skills/
+skills-lock.json
