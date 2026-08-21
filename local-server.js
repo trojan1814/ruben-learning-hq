@@ -1,6 +1,10 @@
 /*
  * Ruben's Learning HQ - zero-dependency local server.
  *
+ * NOTE: this file is deliberately NOT called server.js. Vercel auto-detects a
+ * root server.js and tries to run it as a serverless function, which breaks the
+ * deployment — a long-lived listener is exactly what serverless cannot do.
+ *
  * Serves the dashboard and the books/ folder, and hands every /api/ request
  * to the handlers in api/ — the exact same files Vercel runs as serverless
  * functions when the site is deployed. One implementation, two runtimes.

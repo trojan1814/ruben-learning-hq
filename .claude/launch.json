@@ -4,7 +4,9 @@
     {
       "name": "learning-hq",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["server.js"],
+      "runtimeArgs": [
+        "local-server.js"
+      ],
       "port": 4173
     }
   ]

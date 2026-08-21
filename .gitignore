@@ -13,3 +13,6 @@ public/books-manifest.json
 # (Live progress lives in the database; use Parent Zone -> Export to move it.)
 data/state.json
 data/news-cache.json
+
+.vercel
+.env*

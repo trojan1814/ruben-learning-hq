@@ -4,7 +4,7 @@
   "private": true,
   "description": "A gaming-themed learning dashboard for Ruben Sandhu (Class 3)",
   "scripts": {
-    "start": "node server.js",
+    "start": "node local-server.js",
     "build": "node build.js"
   },
   "engines": {

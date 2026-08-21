@@ -9,7 +9,7 @@ Double-click **`start.bat`** — it launches the server and opens the dashboard.
 Or from a terminal in this folder:
 
 ```bash
-node server.js
+node local-server.js
 ```
 
 Then open **http://localhost:4173**. Stop the server with `Ctrl + C`.
@@ -461,7 +461,7 @@ file needs touching.
 ## Files
 
 ```
-server.js              zero-dependency local server (delegates to api/)
+local-server.js        zero-dependency local server (delegates to api/)
 api/state.js           progress: Upstash Redis, local file, or browser-only
 api/books.js           the vault listing
 api/news.js            the news endpoint

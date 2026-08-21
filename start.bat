@@ -5,5 +5,5 @@ echo.
 echo   Starting Ruben's Learning HQ...
 echo.
 start "" http://localhost:4173
-node server.js
+node local-server.js
 pause
