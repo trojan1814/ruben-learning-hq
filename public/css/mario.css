@@ -1,0 +1,525 @@
+/* ============================================================
+   SUPER MARIO SKIN
+   Loaded last; everything here is scoped to [data-theme="mario"].
+   The battle-royale skin is the default and is left untouched.
+
+   Look: blue sky, cream blocks, thick brown outlines, chunky
+   "sits-on-the-page" shadows instead of neon glow, round corners
+   instead of angular cuts.
+   ============================================================ */
+
+[data-theme="mario"] {
+  /* Surfaces — light and papery */
+  --bg-deep:   #5c94fc;
+  --bg:        #6ea4ff;
+  --surface:   #fffdf3;
+  --surface-2: #fff6e0;
+  --surface-3: #ffe7b6;
+  --line:      #c98b45;
+
+  /* Accents — Mario's palette */
+  --cyan:    #1a7fd4;  /* pipe-sign blue, the "primary" accent */
+  --violet:  #e5453f;  /* Mario red */
+  --magenta: #ff5fa2;  /* Peach pink */
+  --yellow:  #f2b705;  /* coin gold */
+  --lime:    #3aa544;  /* Luigi green */
+  --orange:  #f2802a;  /* fire flower */
+
+  /* Text — dark on light */
+  --text:     #2b1a10;
+  --text-dim: #6b533f;
+  --text-mut: #8a6f56;
+
+  /* Rarity ladder — same order, brighter kingdom colours */
+  --r-common:    #b9a48c;
+  --r-uncommon:  #43b047;
+  --r-rare:      #2ea8e6;
+  --r-epic:      #a855f7;
+  --r-legendary: #fbd000;
+  --r-mythic:    #e5453f;
+
+  /* Boards */
+  --sq-light: #ffe6a7;
+  --sq-dark:  #d9873c;
+  --board-frame: #7a4a1e;
+  --ludo-bg: #fff6df;
+  --ludo-track: #ffe7b6;
+  --ludo-safe: #ffd27a;
+
+  --radius: 16px;
+  --cut: 0px;
+  --shadow: 0 5px 0 rgba(122, 74, 30, .35), 0 14px 30px rgba(60, 30, 10, .18);
+  --glow: 0 0 0 3px rgba(255, 208, 0, .35);
+
+  --font-display: 'Luckiest Guy', 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+  --font-ui: 'Fredoka', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Sky, clouds, brick haze ---------- */
+[data-theme="mario"] body {
+  background:
+    radial-gradient(150px 60px at 14% 16%, rgba(255, 255, 255, .92), transparent 70%),
+    radial-gradient(110px 46px at 22% 12%, rgba(255, 255, 255, .88), transparent 70%),
+    radial-gradient(190px 70px at 78% 9%,  rgba(255, 255, 255, .85), transparent 70%),
+    radial-gradient(130px 52px at 88% 15%, rgba(255, 255, 255, .8),  transparent 70%),
+    linear-gradient(180deg, #5c94fc 0%, #7fb2ff 62%, #a7ceff 100%);
+  color: var(--text);
+}
+
+/* Faint brick courses instead of the HUD grid */
+[data-theme="mario"] body::before {
+  background-image:
+    linear-gradient(rgba(122, 74, 30, .07) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(122, 74, 30, .07) 2px, transparent 2px);
+  background-size: 64px 32px;
+}
+
+[data-theme="mario"] h1,
+[data-theme="mario"] h2,
+[data-theme="mario"] h3,
+[data-theme="mario"] h4 { letter-spacing: 1px; }
+
+[data-theme="mario"] :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+[data-theme="mario"] ::-webkit-scrollbar-thumb { background: var(--line); }
+[data-theme="mario"] ::-webkit-scrollbar-thumb:hover { background: var(--violet); }
+
+/* ---------- Blocks instead of angular panels ---------- */
+[data-theme="mario"] .panel {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 2px solid var(--line);
+}
+[data-theme="mario"] .clip { clip-path: none; border-radius: var(--radius); }
+
+/* ---------- Chunky buttons ---------- */
+[data-theme="mario"] .btn {
+  clip-path: none;
+  border-radius: 11px;
+  border: 2px solid var(--line);
+  box-shadow: 0 4px 0 rgba(122, 74, 30, .4);
+  letter-spacing: .8px;
+}
+[data-theme="mario"] .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(122, 74, 30, .4); }
+[data-theme="mario"] .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(122, 74, 30, .4); }
+[data-theme="mario"] .btn-primary {
+  --btn-bg: linear-gradient(180deg, #ff5d55, var(--violet));
+  color: #fff; border-color: #9c1f1c;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .28);
+}
+[data-theme="mario"] .btn-primary:hover { box-shadow: 0 6px 0 rgba(122, 74, 30, .4); }
+[data-theme="mario"] .btn-hot {
+  --btn-bg: linear-gradient(180deg, #ffd94a, #f2a005);
+  color: #4a2a06; border-color: #b06a2c;
+}
+[data-theme="mario"] .btn-ghost { background: #fff; color: var(--text-dim); border-color: var(--line); }
+[data-theme="mario"] .btn-ghost:hover { color: var(--text); border-color: var(--violet); }
+
+[data-theme="mario"] .pill {
+  background: #fff;
+  border: 2px solid var(--line);
+  color: var(--text-dim);
+}
+[data-theme="mario"] .rarity-tag { clip-path: none; border-radius: 6px; color: #241206; }
+
+[data-theme="mario"] .xpbar { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .xpbar > span {
+  background: linear-gradient(90deg, #ffd94a, var(--orange) 55%, var(--violet));
+  box-shadow: none;
+}
+
+/* ============ SIDEBAR / RAIL ============ */
+[data-theme="mario"] .sidebar,
+[data-theme="mario"] .rail {
+  background: linear-gradient(180deg, rgba(255, 253, 243, .95), rgba(255, 240, 214, .95));
+  border-color: var(--line);
+}
+[data-theme="mario"] .sidebar { border-right: 3px solid var(--line); }
+[data-theme="mario"] .rail { border-left: 3px solid var(--line); }
+
+[data-theme="mario"] .brand-mark {
+  clip-path: none;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffd94a, #f2a005);
+  border: 3px solid #8a4b12;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .45);
+}
+[data-theme="mario"] .brand-text span { color: var(--violet); }
+
+[data-theme="mario"] .player-avatar {
+  clip-path: none;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #ff5d55, var(--violet));
+  border: 3px solid #8a4b12;
+  box-shadow: none;
+}
+[data-theme="mario"] .player-level { color: #a06a00; }
+
+[data-theme="mario"] .theme-switch { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .theme-switch button.on {
+  background: linear-gradient(180deg, #ffd94a, #f2a005);
+  border-color: #b06a2c;
+  color: #3a2107;
+  box-shadow: 0 2px 0 rgba(122, 74, 30, .35);
+}
+
+[data-theme="mario"] .nav-item { border-radius: 10px; }
+[data-theme="mario"] .nav-item:hover { background: rgba(26, 127, 212, .1); }
+[data-theme="mario"] .nav-item.active {
+  background: linear-gradient(90deg, rgba(229, 69, 63, .18), transparent);
+  border-left-color: var(--violet);
+  color: var(--text);
+}
+[data-theme="mario"] .nav-item .badge { background: var(--violet); }
+
+[data-theme="mario"] .coin-box {
+  background: linear-gradient(180deg, #fff3c9, #ffe08a);
+  border: 2px solid #d9a441;
+}
+[data-theme="mario"] .coin-box .amt { color: #a06a00; }
+
+/* ============ TOPBAR / HERO ============ */
+[data-theme="mario"] .topbar .greeting { color: var(--violet); }
+[data-theme="mario"] .topbar h2 em { color: var(--cyan); }
+[data-theme="mario"] .streak-chip {
+  background: linear-gradient(180deg, #fff, #ffe8d2);
+  border: 2px solid #e09a5a;
+}
+
+[data-theme="mario"] .hero {
+  background: linear-gradient(180deg, #ffe9a8 0%, #ffd062 100%);
+  border: 3px solid #b06a2c;
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .4), var(--shadow);
+}
+[data-theme="mario"] .hero::after { animation: none; background: none; }
+[data-theme="mario"] .hero .sub { color: #6a4310; }
+[data-theme="mario"] .hero-tier {
+  background: #fff; border: 2px solid #b06a2c; border-radius: 12px;
+}
+[data-theme="mario"] .hero-tier .n { color: var(--violet); }
+
+[data-theme="mario"] .tier-node { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .tier-node.unlocked { background: #fffbe8; }
+
+/* ============ CARDS ============ */
+[data-theme="mario"] .mcard-icon,
+[data-theme="mario"] .unit-ico,
+[data-theme="mario"] .subject-banner .big-icon,
+[data-theme="mario"] .unit-banner .big-icon,
+[data-theme="mario"] .vault-row .v-icon {
+  clip-path: none;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--rarity, var(--line)) 20%, #fff);
+  border: 2px solid color-mix(in srgb, var(--rarity, var(--line)) 55%, var(--line));
+}
+[data-theme="mario"] .mcard:hover { box-shadow: 0 14px 30px -12px rgba(60, 30, 10, .55); }
+[data-theme="mario"] .soon-tag { background: var(--violet); }
+
+[data-theme="mario"] .subject-banner,
+[data-theme="mario"] .unit-banner {
+  background: linear-gradient(115deg, color-mix(in srgb, var(--rarity) 30%, #fff), var(--surface) 65%);
+  border: 3px solid color-mix(in srgb, var(--rarity) 55%, var(--line));
+}
+[data-theme="mario"] .unit-kicker { color: var(--violet); }
+
+[data-theme="mario"] .lesson-num { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .xp-tag { color: var(--violet); }
+
+[data-theme="mario"] .notice {
+  background: linear-gradient(180deg, #fff8dd, #ffeeb8);
+  border: 2px solid #e0b355;
+  color: #5c4526;
+}
+[data-theme="mario"] .notice b { color: #a83a1c; }
+
+/* ============ VAULT ============ */
+[data-theme="mario"] .file-chip {
+  background: #e8f3ff; border: 2px solid #9cc8ef; color: var(--text);
+}
+[data-theme="mario"] .file-chip:hover { background: #d3e8ff; }
+[data-theme="mario"] .empty-slot { border: 2px dashed var(--line); }
+[data-theme="mario"] .dropzone {
+  background: rgba(255, 255, 255, .7);
+  border: 3px dashed var(--line);
+}
+[data-theme="mario"] .dropzone h3 { color: var(--violet); }
+[data-theme="mario"] .dropzone code {
+  background: #fff3c9; border: 2px solid #e0b355; color: #7a4a1e;
+}
+
+/* ============ RAIL ============ */
+[data-theme="mario"] .quest .check { border: 2px solid var(--line); }
+[data-theme="mario"] .quest.done .check { background: var(--lime); border-color: var(--lime); color: #fff; }
+[data-theme="mario"] .q-coins { color: #a06a00; }
+[data-theme="mario"] .sched-card {
+  background: linear-gradient(180deg, #dff3df, #bfe6c2);
+  border: 2px solid #7bbd80;
+}
+[data-theme="mario"] .stat-box .n { color: var(--violet); }
+
+/* ============ TOASTS & FX ============ */
+[data-theme="mario"] .toast {
+  clip-path: none;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ff5d55, var(--violet));
+  border: 2px solid #9c1f1c;
+  color: #fff;
+  box-shadow: 0 8px 0 rgba(122, 74, 30, .35);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, .3);
+}
+[data-theme="mario"] .toast.gold {
+  background: linear-gradient(180deg, #ffd94a, #f2a005);
+  border-color: #b06a2c; color: #3a2107; text-shadow: none;
+  box-shadow: 0 8px 0 rgba(122, 74, 30, .35);
+}
+[data-theme="mario"] .xp-float {
+  color: #fbd000;
+  text-shadow: 3px 3px 0 #8a4b12, -2px -2px 0 #8a4b12, 2px -2px 0 #8a4b12, -2px 2px 0 #8a4b12;
+}
+
+/* ============ MODALS ============ */
+[data-theme="mario"] .modal-back { background: rgba(40, 22, 8, .55); }
+[data-theme="mario"] .modal input,
+[data-theme="mario"] .modal select {
+  background: #fff; border: 2px solid var(--line); color: var(--text);
+}
+[data-theme="mario"] .modal input:focus { border-color: var(--violet); }
+
+/* ============ LESSONS & QUIZ ============ */
+[data-theme="mario"] .teach-card {
+  background: linear-gradient(180deg, #fffdf3, #fff6e0);
+  border: 2px solid var(--line);
+  border-left: 5px solid var(--lime);
+}
+[data-theme="mario"] .teach-card h4 { color: #1c7a24; }
+[data-theme="mario"] .teach-eg li {
+  background: #fff; border: 1px solid #eddcc0; border-left: 3px solid var(--cyan);
+  color: var(--text-dim);
+}
+[data-theme="mario"] .teach-tip {
+  background: linear-gradient(180deg, #fff8dd, #ffeeb8);
+  border: 2px solid #e0b355;
+}
+[data-theme="mario"] .teach-table th { color: #a83a1c; border-bottom: 2px solid var(--line); }
+[data-theme="mario"] .teach-table td { border-bottom: 1px solid #eddcc0; }
+
+[data-theme="mario"] .start-bar {
+  background: linear-gradient(180deg, #dff3df, #bfe6c2);
+  border: 3px solid #7bbd80;
+}
+
+[data-theme="mario"] .opt {
+  background: #fff; border: 2px solid var(--line);
+}
+[data-theme="mario"] .opt:hover:not(:disabled) { border-color: var(--violet); }
+[data-theme="mario"] .opt-key { background: var(--surface-3); border: 2px solid var(--line); color: var(--text-dim); }
+[data-theme="mario"] .opt.sel { border-color: var(--cyan); background: #e8f3ff; }
+[data-theme="mario"] .opt.sel .opt-key { background: var(--cyan); color: #fff; border-color: var(--cyan); }
+[data-theme="mario"] .opt.correct { border-color: var(--lime); background: #e6f6e7; }
+[data-theme="mario"] .opt.correct .opt-key { background: var(--lime); color: #fff; border-color: var(--lime); }
+[data-theme="mario"] .opt.wrong { border-color: var(--violet); background: #ffeaea; }
+[data-theme="mario"] .opt.wrong .opt-key { background: var(--violet); color: #fff; border-color: var(--violet); }
+
+[data-theme="mario"] #answerInput { background: #fff; border: 3px solid var(--line); color: var(--text); }
+[data-theme="mario"] #answerInput:focus { border-color: var(--violet); box-shadow: none; }
+
+[data-theme="mario"] .match-row { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .match-row.picking { border-color: var(--cyan); background: #e8f3ff; box-shadow: none; }
+[data-theme="mario"] .match-row.filled { border-color: var(--orange); }
+[data-theme="mario"] .match-row.ok { border-color: var(--lime); background: #e6f6e7; }
+[data-theme="mario"] .match-row.no { border-color: var(--violet); background: #ffeaea; }
+[data-theme="mario"] .match-bank { background: rgba(255, 255, 255, .75); border: 2px dashed var(--line); }
+[data-theme="mario"] .match-chip { background: #fff3c9; border: 2px solid #e0b355; }
+[data-theme="mario"] .match-chip:hover { background: #ffe8a3; }
+
+[data-theme="mario"] .feedback.good { background: #e6f6e7; border: 2px solid #7bbd80; }
+[data-theme="mario"] .feedback.bad { background: #ffeaea; border: 2px solid #e5928e; }
+[data-theme="mario"] .feedback.good .fb-head { color: #1c7a24; }
+[data-theme="mario"] .feedback.bad .fb-head { color: #b3241f; }
+[data-theme="mario"] .fb-answer b { color: #a06a00; }
+
+[data-theme="mario"] .score-chip { background: #e6f6e7; border: 2px solid #7bbd80; color: #1c7a24; }
+[data-theme="mario"] .score-chip.mid { background: #fff3c9; border-color: #e0b355; color: #a06a00; }
+[data-theme="mario"] .score-chip.low { background: #ffeaea; border-color: #e5928e; color: #b3241f; }
+[data-theme="mario"] .unit-check { color: var(--lime); }
+
+[data-theme="mario"] .results h2 { color: var(--violet); }
+[data-theme="mario"] .res-score { color: var(--cyan); }
+[data-theme="mario"] .star { color: #e3d5bd; }
+[data-theme="mario"] .star.on { color: #fbd000; text-shadow: 2px 2px 0 #b06a2c; }
+[data-theme="mario"] .rw { background: #e8f3ff; border: 2px solid #9cc8ef; }
+[data-theme="mario"] .rw b { color: var(--cyan); }
+[data-theme="mario"] .rw.gold { background: #fff3c9; border-color: #e0b355; }
+[data-theme="mario"] .rw.gold b { color: #a06a00; }
+
+/* ============ GAMES — shared ============ */
+[data-theme="mario"] .cboard,
+[data-theme="mario"] .lboard {
+  border: 5px solid var(--board-frame);
+  border-radius: 8px;
+  box-shadow: 0 10px 0 rgba(122, 74, 30, .35), 0 22px 44px rgba(60, 30, 10, .35);
+}
+[data-theme="mario"] .csq .coord { color: rgba(74, 38, 8, .7); }
+[data-theme="mario"] .csq.last::before { background: rgba(251, 208, 0, .38); }
+[data-theme="mario"] .csq.sel { box-shadow: inset 0 0 0 4px var(--violet); }
+[data-theme="mario"] .csq.target::after {
+  background: var(--lime); box-shadow: 0 0 0 3px rgba(255, 255, 255, .7);
+}
+[data-theme="mario"] .csq.capture::after {
+  border: 4px solid var(--violet); box-shadow: 0 0 0 2px rgba(255, 255, 255, .6);
+}
+[data-theme="mario"] .csq.check {
+  background: radial-gradient(circle, rgba(229, 69, 63, .8), transparent 72%), #ffb3ae;
+}
+[data-theme="mario"] .cpiece.foe svg {
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, .85)) drop-shadow(0 3px 4px rgba(0, 0, 0, .45));
+}
+
+[data-theme="mario"] .status-card { border-left-width: 6px; }
+[data-theme="mario"] .status-card.go   { background: linear-gradient(100deg, rgba(58, 165, 68, .16), transparent 60%); }
+[data-theme="mario"] .status-card.wait { background: linear-gradient(100deg, rgba(26, 127, 212, .16), transparent 60%); }
+[data-theme="mario"] .status-card.warn { background: linear-gradient(100deg, rgba(242, 128, 42, .2), transparent 60%); }
+[data-theme="mario"] .status-card.win  { background: linear-gradient(100deg, rgba(58, 165, 68, .22), transparent 60%); }
+[data-theme="mario"] .status-card.loss { background: linear-gradient(100deg, rgba(229, 69, 63, .2), transparent 60%); }
+[data-theme="mario"] .status-card.draw { background: linear-gradient(100deg, rgba(251, 208, 0, .22), transparent 60%); }
+[data-theme="mario"] .status-card.go { border-left-color: var(--lime); }
+
+[data-theme="mario"] .diff-btn,
+[data-theme="mario"] .speed-btn { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .diff-btn:hover,
+[data-theme="mario"] .speed-btn:hover { border-color: var(--violet); }
+[data-theme="mario"] .diff-btn.on {
+  border-color: #b06a2c;
+  background: linear-gradient(180deg, #ffe9a8, #ffd062);
+  box-shadow: 0 3px 0 rgba(122, 74, 30, .3);
+}
+[data-theme="mario"] .speed-btn.on {
+  border-color: #b06a2c; color: #3a2107;
+  background: linear-gradient(180deg, #ffd94a, #f2a005);
+}
+[data-theme="mario"] .thinking-dots i { background: var(--violet); }
+[data-theme="mario"] .move-line.now { background: #fff3c9; color: var(--text); }
+[data-theme="mario"] .promo-pick { background: #fff; border-width: 2px; }
+[data-theme="mario"] .roster-card { border-width: 2px; }
+
+[data-theme="mario"] .board-over { background: rgba(40, 22, 8, .68); }
+[data-theme="mario"] .over-card h3 { color: var(--violet); }
+[data-theme="mario"] .over-xp { color: #a06a00; }
+[data-theme="mario"] .fx-word { color: #fff; text-shadow: 3px 3px 0 #8a4b12, 0 0 14px var(--fx, #fff); }
+
+/* ============ LUDO ============ */
+[data-theme="mario"] .lcell { border: 1px solid rgba(122, 74, 30, .18); color: rgba(90, 48, 12, .6); }
+[data-theme="mario"] .lc-safe { color: rgba(90, 48, 12, .75); }
+[data-theme="mario"] .lc-pad { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .6); }
+[data-theme="mario"] .ltoken { border: 2px solid rgba(90, 48, 12, .55); }
+[data-theme="mario"] .ltoken.movable { border-color: #7a4a1e; box-shadow: 0 0 0 3px rgba(251, 208, 0, .8); }
+[data-theme="mario"] .dice { filter: drop-shadow(0 3px 0 rgba(122, 74, 30, .4)); }
+[data-theme="mario"] .rules li::before { color: var(--violet); }
+
+/* ============ SPRITE SHEET PAGE ============ */
+[data-theme="mario"] .obs.l { background: var(--sq-light); }
+[data-theme="mario"] .obs.d { background: var(--sq-dark); }
+[data-theme="mario"] a.back { color: var(--violet); }
+
+/* ---------- Rarity as TEXT ----------
+   The rarity tokens are tuned to glow on the dark skin; on cream they need
+   pulling toward brown or gold/common vanish into the card. */
+[data-theme="mario"] .mcard .tagline,
+[data-theme="mario"] .subject-banner .tagline,
+[data-theme="mario"] .tier-node .lv,
+[data-theme="mario"] .tier-node.unlocked .lv,
+[data-theme="mario"] .roster-card .roster-piece,
+[data-theme="mario"] .promo-pick span,
+[data-theme="mario"] .cell .role {
+  color: color-mix(in srgb, var(--rarity) 58%, #2b1a10);
+}
+
+[data-theme="mario"] .hi { color: #a83a1c; }
+[data-theme="mario"] .hi-ok { color: #1c7a24; }
+[data-theme="mario"] .hi-code { color: #7a4a1e; }
+
+[data-theme="mario"] .btn-danger { color: #b3241f; border-color: #e5928e; }
+
+/* ============ OLYMPIAD · SCHEDULE · HOBBIES ============ */
+
+[data-theme="mario"] .link-btn { color: var(--cyan); }
+
+[data-theme="mario"] .oly-hero {
+  background-image: linear-gradient(115deg, #ffd9a8, #ffe9a8 55%, #ffd062);
+}
+[data-theme="mario"] .oly-date { background: #fff; border-width: 2px; }
+[data-theme="mario"] .oly-date .lv { color: color-mix(in srgb, var(--rarity) 58%, #2b1a10); }
+[data-theme="mario"] .reg-notice {
+  background: linear-gradient(180deg, #ffe9dd, #ffd9c2);
+  border: 2px solid #e0864f;
+}
+[data-theme="mario"] .reg-notice b { color: #a83a1c; }
+
+[data-theme="mario"] .pat-card .p-n { color: var(--violet); }
+[data-theme="mario"] .syl-chip { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .syl-chip span { background: var(--surface-3); border: 1px solid var(--line); }
+
+[data-theme="mario"] .plan-week { border: 2px solid var(--line); border-left: 5px solid var(--rarity); }
+[data-theme="mario"] .plan-week.now { box-shadow: 0 4px 0 rgba(122, 74, 30, .3); }
+[data-theme="mario"] .pw-n { color: color-mix(in srgb, var(--rarity) 58%, #2b1a10); }
+[data-theme="mario"] .pw-now { background: #2b1a10; color: #fff8ee; }
+[data-theme="mario"] .pw-test b { color: #a83a1c; }
+[data-theme="mario"] .pw-do li::before { color: var(--violet); }
+
+[data-theme="mario"] .err-a s { color: #b3241f; }
+[data-theme="mario"] .err-a b { color: #1c7a24; }
+
+[data-theme="mario"] .quiz-timer { color: var(--cyan); border-color: var(--cyan); }
+[data-theme="mario"] .quiz-timer.low { color: #b3241f; border-color: #b3241f; }
+[data-theme="mario"] .sec-pill { color: #a83a1c; }
+[data-theme="mario"] .res-advice {
+  background: #fff3e4; border: 2px solid #e0a06a; color: var(--text-dim);
+}
+[data-theme="mario"] .res-advice b { color: #a83a1c; }
+[data-theme="mario"] .res-sec.weak .rs-top b { color: #a83a1c; }
+
+[data-theme="mario"] .sch-item {
+  background: #fff; border: 2px solid var(--line); border-left: 5px solid var(--rarity, var(--line));
+}
+[data-theme="mario"] .sch-tick { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .sch-item.ticked .sch-tick,
+[data-theme="mario"] .plan-week.done .sch-tick { background: var(--lime); border-color: var(--lime); color: #fff; }
+[data-theme="mario"] .sch-kind { color: color-mix(in srgb, var(--rarity, var(--line)) 58%, #2b1a10); }
+[data-theme="mario"] .day-col.is-today { border-color: var(--violet); box-shadow: 0 0 0 2px rgba(229, 69, 63, .3); }
+[data-theme="mario"] .day-col.is-today .day-head { color: var(--violet); }
+[data-theme="mario"] .day-head { border-bottom: 2px solid var(--line); }
+[data-theme="mario"] .day-add:hover { background: var(--surface-3); }
+
+[data-theme="mario"] .rs-n { background: var(--surface-3); border: 2px solid var(--line); color: var(--violet); }
+[data-theme="mario"] .drill-card { border: 2px solid var(--line); border-left: 5px solid var(--lime); }
+[data-theme="mario"] .wc-col { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .wc-min { color: color-mix(in srgb, var(--rarity) 58%, #2b1a10); }
+
+/* ============ NEWS · SAFETY · PROMPT LAB ============ */
+[data-theme="mario"] .news-notice { background: linear-gradient(180deg, #e8f3ff, #d3e8ff); border: 2px solid #9cc8ef; }
+[data-theme="mario"] .news-notice b { color: #175f9e; }
+[data-theme="mario"] .news-card:hover { box-shadow: 0 14px 30px -14px rgba(60, 30, 10, .6); }
+[data-theme="mario"] .news-img { background: var(--surface-3); }
+[data-theme="mario"] .news-topic { color: #175f9e; }
+[data-theme="mario"] .news-go { color: #a83a1c; }
+[data-theme="mario"] .news-card.read .news-go { color: #1c7a24; }
+[data-theme="mario"] .news-foot { border-top: 2px solid var(--line); }
+[data-theme="mario"] .talk-box { border: 2px solid var(--line); border-left: 5px solid var(--violet); }
+
+[data-theme="mario"] .safety-banner {
+  background: linear-gradient(115deg, #ffe0dd, #ffeadd);
+  border: 3px solid #d0473f;
+}
+[data-theme="mario"] .safety-banner h4 { color: #b3241f; }
+
+[data-theme="mario"] .pl-input { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .pl-input:focus { border-color: var(--violet); box-shadow: none; }
+[data-theme="mario"] .pl-n { color: var(--violet); }
+[data-theme="mario"] .pl-part { background: #fff; border: 2px solid var(--line); }
+[data-theme="mario"] .pl-part.ok { background: #e6f6e7; border-color: #7bbd80; }
+[data-theme="mario"] .pl-part.ok span { color: #1c7a24; }
+[data-theme="mario"] .pe-row.bad { background: #ffeaea; border: 2px solid #e5928e; }
+[data-theme="mario"] .pe-row.good { background: #e6f6e7; border: 2px solid #7bbd80; }
+[data-theme="mario"] .pe-row.bad .pe-tag { color: #b3241f; }
+[data-theme="mario"] .pe-row.good .pe-tag { color: #1c7a24; }
+
+[data-theme="mario"] .storage-card.warn { background: linear-gradient(115deg, #ffeadd, #fff6e0); border-color: #e0864f; }
+[data-theme="mario"] .storage-card.warn h4 { color: #a83a1c; }

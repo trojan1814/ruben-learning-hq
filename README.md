@@ -1,0 +1,415 @@
+# 🎮 Ruben's Learning HQ
+
+A local, gaming-themed learning dashboard for Ruben Sandhu (age 9).
+
+## Running it
+
+Double-click **`start.bat`** — it launches the server and opens the dashboard.
+
+Or from a terminal in this folder:
+
+```bash
+node server.js
+```
+
+Then open **http://localhost:4173**. Stop the server with `Ctrl + C`.
+
+No installs, no `npm install` — it runs on Node's built-in modules only.
+
+## Two themes
+
+There is a **theme switcher at the top of the sidebar** — one click swaps the
+entire app between two complete skins:
+
+| | 🎮 **Battle HQ** | 🍄 **Super Mario** |
+|---|---|---|
+| Look | Dark neon HUD, angular panels | Blue sky, cream blocks, thick brown outlines |
+| Fonts | Russo One / Rajdhani | Luckiest Guy / Fredoka |
+| Home | Home Base | Peach's Castle |
+| Subjects | Mission Zones | Worlds |
+| Rewards | Battle Pass · Tiers · Star Coins | Star Road · Stars · Gold Coins |
+| Rarity | Common → Mythic | Mushroom → Rainbow Star |
+| Chess squad | Recruit, Beast Scout, Tech Oracle, Fortress, Storm Queen, Supreme King | Goomba, Yoshi, Toad, Thwomp, Princess Peach, Mario |
+| Chess levels | Recruit / Soldier / Elite / Legend | Goomba / Koopa / Hammer Bro / Bowser |
+| Ludo squads | Green / Gold / Blue / Red | Luigi / Wario / Toad / Mario |
+| Knockouts | `K.O.` `SMASHED!` `ELIMINATED!` | `STOMP!` `SMASH!` `WAHOO!` `MAMMA MIA!` |
+
+It is the whole app, not a colour swap: wording, icons, chess sprites, the ludo
+cast, the board colours, the win and lose screens and the quiz results all
+change. Chess in the Mario theme is Team Mario against Bowser's crew — the same
+characters cast in shadow.
+
+The choice is saved per browser and in `data/state.json`, so it survives a restart.
+
+### Editing or adding a theme
+
+Everything a theme owns lives in two places:
+
+- `public/js/theme.js` — every word, icon, character name and result screen.
+- `public/css/mario.css` — the Mario colour tokens and component overrides
+  (the default skin's tokens are at the top of `public/css/theme.css`).
+
+Chess character art is in `public/js/sprites.js`, one cast per theme. To add a
+third skin, add an entry to `THEMES`, a matching `SPRITE_SETS` cast, a
+`[data-theme="..."]` block of CSS, and a button to the switcher in `index.html`.
+
+## Adding his books
+
+Paste the PDFs of his actual textbooks into the matching folder:
+
+```
+books/English/
+books/Geography/
+books/Hindi/
+books/Math/
+books/Science/
+books/Computer-Science/
+books/General-Knowledge/
+```
+
+Then open **Book Vault → Rescan Vault** in the dashboard. Anything you drop in
+shows up there, and I read those files from disk when generating his real lesson plans.
+
+## How the rewards work
+
+| Thing | Earns |
+|---|---|
+| Reading a lesson | +15 XP (once per unit) |
+| Each correct answer | +8 XP |
+| Finishing a unit | +15 to +50 XP and coins, by score |
+| Completing a daily quest | Star Coins |
+| Each Olympiad mock answer | +8 XP, plus up to +80 for a strong paper |
+| Ticking off a whole scheduled day | +40 XP |
+| A minute of piano or golf practice | +1 XP |
+| Finishing a hobby lesson | +20 XP |
+| Ticking off an Olympiad plan week | +30 XP |
+| Reading a news story | +5 XP (max 5 a day) |
+| Clearing all 4 daily quests | +100 bonus XP |
+| Every 500 XP | +1 Player Level |
+| Hitting a Battle Pass XP threshold | Unlocks a real-world reward you approve |
+
+**Battle Pass rewards are yours to set.** Edit the `BATTLE_PASS` array in
+`public/js/data.js` — screen time, ice cream, movie night, whatever motivates him.
+
+## Parent Zone
+
+The 🛡️ **Parent Zone** page lets you award bonus XP for effort, add or spend Star
+Coins, rename the player, review recent activity, and reset the season.
+
+## Game Arena
+
+Both games are fully playable and pay XP + Star Coins straight into the Battle Pass.
+
+### ♟️ Chess
+
+Complete rules — castling, en passant, promotion, check, checkmate, stalemate, the
+50-move rule and insufficient-material draws. Verified against the standard perft
+test suite (Kiwipete and friends) to depth 4.
+
+Four difficulty levels, so it grows with him:
+
+| Level | Looks ahead | Feel |
+|---|---|---|
+| Recruit | 1 move | Makes mistakes on purpose — start here |
+| Soldier | 2 moves | Spots simple traps |
+| Elite | 3 moves | Plays to win |
+| Legend | 4 moves | Genuinely hard |
+
+**The squad.** Each piece is a character, and the rarity climbs with the piece — exactly
+the ladder Ruben asked for. In the **Battle HQ** theme they are original battle-royale
+troopers; in the **Super Mario** theme the same ladder is the Mushroom Kingdom crew:
+
+| Piece | 🎮 Battle HQ | 🍄 Mario | Rarity |
+|---|---|---|---|
+| King | Supreme King | Mario | 🔶 Mythic |
+| Queen | Storm Queen | Princess Peach | 🟡 Legendary |
+| Rook | Fortress | Thwomp | 🟣 Epic |
+| Bishop | Tech Oracle | Toad | 🔵 Rare |
+| Knight | Beast Scout | Yoshi | 🟢 Uncommon |
+| Pawn | Recruit | Goomba | ⚪ Common |
+
+In Battle HQ your squad wears light armour and the enemy wears dark; in Mario your crew is
+in true colour and Bowser’s crew is the same character cast in shadow. Promote a Pawn and
+you pick which skin it respawns as. See both casts side by side at
+**http://localhost:4173/sprites.html** — that page has its own theme switcher.
+
+**Combat animations.** Ordinary moves glide across the board (Knights physically leap).
+Captures play a fight: the attacker charges in, the board shakes on impact, and the
+defender flashes white, spins out and vanishes in a burst of sparks with a callout —
+`K.O.` for a Pawn, `SMASHED!` for a Rook, `ELIMINATED!` for a Queen. Castling animates
+the King and Rook together; en passant knocks out the pawn on the square it actually
+stands on, not the destination.
+
+The AI also holds a visible "thinking" beat of about 1–1.7 seconds before moving. The
+search itself takes under 100 ms — the pause is deliberate, so a move reads as a
+decision rather than a twitch.
+
+**Animation Speed** (side panel): Chill / Normal / Quick. To retune the defaults, edit
+`TIMING` and `SPEEDS` at the top of `ChessGame` in `public/js/chess.js`.
+
+**Board size.** Both boards scale with the window — they grow to fill the space and stay
+perfectly square, capped at 940px. Maximise the window or go full screen and the board
+grows with it. The cap lives in `--board` on `.board-col` in `public/css/games.css`.
+
+Rewards: win 200 XP + 50 coins · draw 70 XP + 15 coins · loss 30 XP.
+
+### 🎲 Ludo
+
+Standard 15×15 board, you (Red) against three computer squads. Roll a 6 to leave base,
+6s grant an extra turn, three 6s forfeits it. Land on an enemy to knock it home and take
+another turn. ★ and ✦ squares are safe. Exact roll needed to reach the trophy.
+
+Rewards: 1st 180 XP + 45 coins · 2nd 110 XP · 3rd 80 XP · 4th 40 XP.
+
+## 📰 News Desk — daily world news, filtered for a 9-year-old
+
+A fresh headline feed every day, from sources that are written for children in the
+first place rather than adult news that has been trimmed.
+
+| Source | What it brings |
+|---|---|
+| **BBC Newsround** | The BBC's own news service for 6–12 year olds — the backbone of the feed |
+| **Science News Explores** | Science journalism written for young readers |
+| **NASA Image of the Day** | Space photo of the day with a short caption |
+
+### How the filtering works
+
+Two layers, both on the server before anything reaches the browser:
+
+1. **Kid-first sources.** Newsround is already edited for this age group.
+2. **A keyword blocklist.** Every headline *and* summary is checked against a list
+   covering violence, death, crime, courts, war, drugs, adult themes and distressing
+   events. Anything that trips it is **dropped, not shown**. Stories about space,
+   animals, inventions, records, sport and science get boosted up the list instead.
+
+The filter is deliberately blunt — a good story wrongly dropped costs nothing, the
+reverse costs a lot. To tune it, edit `BLOCK` and `BOOST` at the top of `news.js`.
+
+### How it stays daily
+
+The server fetches at most once every 3 hours and caches to `data/news-cache.json`,
+so opening the app is instant and it still works with the internet unplugged (it
+serves the last good copy and says so). **🔄 Refresh** forces a fetch.
+
+The sidebar shows an unread count. Tapping a story opens the original site in a new
+tab and pays **+5 XP**, capped at 5 stories a day so it stays a nudge rather than a
+grind. Each page ends with five **"Talk about it"** questions — retell it, who does it
+affect, how do they know, what would you do, what else do you want to know.
+
+## 🇮🇳 Olympiad Ops — Indian Talent Olympiad prep
+
+Four Class 3 exams, prepped properly. Everything on this page comes from
+[indiantalent.org](https://www.indiantalent.org) as published in August 2026.
+
+| Exam | Subject | Round 1 | Slot 2 |
+|---|---|---|---|
+| **ICO** International Computer Olympiad | Computer | Tue 1 Dec 2026 | 4 Jan 2027 |
+| **EIO** English International Olympiad | English | Thu 3 Dec 2026 | 7 Jan 2027 |
+| **ISO** International Science Olympiad | Science | Fri 4 Dec 2026 | 8 Jan 2027 |
+| **IMO** International Maths Olympiad | Maths | Sat 5 Dec 2026 | 9 Jan 2027 |
+
+**Individual registration closes 30 October 2026.** The page shows a live countdown
+to each exam and to that deadline. ITO calls these dates tentative and confirms them
+about 20 days beforehand — check before relying on them.
+
+### The paper
+
+For Classes 1–4 every subject uses the same shape: **35 questions, 1 mark each,
+no negative marking**, 45 minutes online (65 offline).
+
+| Section | Questions | What it tests |
+|---|---|---|
+| Subject | 20 | Straight from the class syllabus |
+| Logical Reasoning | 10 | Patterns, codes, series, mirrors, figures |
+| HOTs | 5 | Two steps of thinking, not one |
+
+### Mock papers
+
+**One full 35-question mock per subject — 140 questions in all**, written to that exact
+20 / 10 / 5 split and modelled on published previous-year Class 3 papers. Every question
+has a worked explanation.
+
+Two ways to sit one:
+
+- **⏱️ Timed** — a 45-minute countdown in the header that turns red under 5 minutes
+  and submits automatically when it hits zero. This is the one that matters.
+- **📖 Untimed** — same paper, no clock, for going through it together.
+
+Results break the score down **by section**, name his weakest one and say what to do
+about it. Best score per paper is kept, and every wrong answer is filed in the Error Book.
+
+### The testing plan
+
+Fourteen weeks from **Mon 24 Aug** to the first exam on **1 Dec**, in three phases:
+
+| Weeks | Phase | What happens |
+|---|---|---|
+| 1–5 | Learn the syllabus | Baseline mocks in week 1, then one subject a week |
+| 6–10 | Learn the exam | Logical reasoning drills, full untimed papers, **register in week 10** |
+| 11–14 | Rehearse it | Timed mocks, Error Book only, then taper |
+
+Each week states what to do, the checkpoint test, and *why* that week exists. Tick a
+week off for +30 XP. The current week is highlighted automatically by today's date.
+
+### Error Book
+
+Every question he gets wrong in a mock is logged automatically with what he chose, the
+right answer and the explanation. Re-doing wrong answers is the highest-value revision
+there is, which is why week 13 is nothing else.
+
+To change the plan or the exam dates, edit `public/js/olympiad/_meta.js`.
+To add a second mock paper, add another object to the array in that subject's file.
+
+## 📅 Mission Board — the editable schedule
+
+His real week: school, classes, sports, music lessons, study slots and one-off events.
+
+- **Add / edit / delete anything** — tap a card to edit it, or the ＋ on a day column.
+- **Weekly repeats** (every Tuesday) or **one-off events** (a specific date), which get
+  their own "Coming up" list.
+- **Six types** with their own colour and icon: School, Class, Sport, Music, Study, Event.
+- **Tick things off** as they happen. Clearing a whole day is +40 XP.
+- Today's row also drives the **side rail**, and can be ticked from there too.
+
+It ships with a starter timetable so the page is never empty — school 8am weekdays,
+study slots, football, swimming, piano and a Saturday golf lesson. Replace it with his
+real week, or hit **↺ Starter timetable** to put it back.
+
+Everything saves to `data/state.json`.
+
+## 🎹 Side Quests — piano, golf, AI and 3D printing
+
+Real coaching content for all four, plus practice tracking. **Every minute logged is 1 XP**,
+so time at the piano or on the range moves the Battle Pass exactly like schoolwork does.
+
+**🎹 Piano** — 6 lessons: sitting and hand shape · reading the keyboard · finger numbers and
+C position · counting rhythm · reading the treble staff · how to practise so it sticks.
+Plus a 20-minute practice routine and 8 tips.
+
+**⛳ Golf** — 6 lessons: the grip · stance, posture and aim · the swing · putting · chipping ·
+rules and etiquette. Plus a 30-minute range routine and 8 tips.
+
+**🤖 AI** — 8 lessons: what AI actually is (a pattern machine, not a brain) · how it learned ·
+the four-part prompt · getting a better answer · when AI gets it wrong · safe and fair rules ·
+**building your own game with AI** · other cool things to try.
+
+It includes a **Prompt Lab**: type a prompt, hit score, and it checks it against the four
+parts taught in lesson 3 — **Role · Task · Details · Format** — and tells you which one is
+missing. Nothing is sent anywhere; the scoring is local pattern-matching, so it works offline
+and costs nothing. There is a weak→strong example pair you can cycle through underneath.
+
+**🖨️ 3D Printing** — 9 lessons built around the actual kit: the **Phrozen Sonic Mini 8K S**,
+the Phrozen Wash & Cure and Phrozen resin. How resin printing works · the machine's real
+numbers · finding models · slicing (orientation, supports, hollowing, drain holes) · the
+wash/cure workflow · diagnosing failures · painting figurines · designing his own toy.
+
+> ⚠️ **On safety.** Uncured resin is a skin sensitiser and IPA is flammable, so the content is
+> built around a hard split that is stated in lesson 1 and repeated on the page as a red banner:
+> **adult jobs** are pouring resin, the vat, any unwashed print, IPA and all disposal —
+> **Ruben's jobs** are designing, slicing, starting the print, and handling it gloved once it is
+> washed and dry, plus clipping, sanding and painting. Nitrile gloves (never latex), safety
+> glasses, ventilation, and waste cured solid under UV before it goes in the bin.
+
+Every lesson in all four has teaching cards and **one specific drill** with numbered steps —
+the drill is the part that actually changes anything. Mark a lesson done for +20 XP.
+
+The page tracks a daily minutes goal, a practice streak and a 7-day bar chart per hobby.
+One file per hobby in `public/js/hobbies/` — edit the lessons, tips and routines there.
+
+## The curriculum
+
+**48 units, 384 questions**, written at **Class 3** level.
+
+| Subject | Units | Questions | Based on |
+|---|---|---|---|
+| English | 10 | 80 | **Cambridge Primary English 3 — his actual school book** |
+| Hindi | 6 | 48 | NCERT रिमझिम 3 + व्याकरण |
+| Math | 7 | 56 | NCERT Math-Magic 3 |
+| Science (EVS) | 6 | 48 | NCERT Looking Around 3 |
+| Geography | 7 | 56 | Standard Class 3 syllabus — *not yet book-matched* |
+| Computer Science | 6 | 48 | Standard CBSE Class 3 computer syllabus |
+| General Knowledge | 6 | 48 | India + world GK |
+
+### English follows his school book
+
+The units mirror the session order of Cambridge Primary English Learner's Book 3
+(9781108819541), which is in `books/English/`: settings → characters → verbs → speech →
+planning and writing a story → lists and instructions → invitations → figurative language,
+with a grammar consolidation unit at the end. Each unit records the matching book sessions
+in its `book` field.
+
+Note the PDF in that folder is a **50-page pre-publication sample**, not the full book. It
+covers Unit 1 completely, Unit 2 partly, and the start of Unit 3. Units 1–8 here are aligned
+to what the sample shows; the later ones follow the same course's usual progression. Add the
+complete book and they can be tightened further.
+
+### Geography is not book-matched yet
+
+Geography follows the standard Class 3 syllabus (Earth, globes and maps, directions,
+landforms, water bodies, weather, India) rather than any particular workbook. Drop his
+Geography book into `books/Geography/` to have it realigned chapter by chapter.
+
+Every unit has a **teaching section first** (explanations, worked examples, tables, a tip),
+then an **auto-graded quiz**. Wrong answers show the correct answer plus a short "why".
+
+Four question types: multiple choice, true/false, type-the-answer, and match-the-pairs.
+Questions and MCQ options are shuffled on every attempt, so repeating a unit is real practice
+rather than memorising positions. Hindi units deliberately use no typed answers — a Hindi
+keyboard is a barrier at this age.
+
+### Rewards per unit
+
+| Action | Reward |
+|---|---|
+| Reading the lesson (first time) | +15 XP |
+| Each correct answer | +8 XP |
+| Score 60–79% | +15 XP, +5 coins, unit cleared |
+| Score 80–99% | +30 XP, +10 coins |
+| Score 100% | +50 XP, +20 coins, 3 stars |
+
+A unit counts as cleared at 60%. Best score is kept, so retrying can only help.
+
+### Editing the content
+
+One file per subject in `public/js/curriculum/`. The shape is documented at the top of
+`_schema.js`. Adding a question is just another object in the `questions` array — no other
+file needs touching.
+
+## What's still a placeholder
+
+- **Book matching** — only English follows an actual school book so far, and only from a
+  50-page sample. Hindi, Math, Science, Geography, CS and GK all follow the standard Class 3
+  syllabus. Drop each real book into its `books/` folder to have that subject retuned.
+
+## Files
+
+```
+server.js              zero-dependency Node server + books/state/news API
+news.js                RSS fetch, kid-safe filter and 3-hour cache
+start.bat              double-click launcher
+public/index.html      app shell
+public/sprites.html    sprite-sheet preview of the chess squad
+public/css/theme.css   default (Battle HQ) tokens, fonts, buttons, XP bars
+public/css/mario.css   the Super Mario skin — tokens + component overrides
+public/css/dashboard.css  layout and page components
+public/css/games.css   chess + ludo boards
+public/css/pages.css   olympiad, schedule and hobbies components
+public/js/theme.js     >> BOTH THEMES <<  every label, icon, name and result screen
+public/js/data.js      subject metadata, games, quests, battle pass
+public/js/curriculum/  >> ALL LESSONS & QUESTIONS <<  one file per subject
+public/js/olympiad/    Indian Talent Olympiad: exam facts, plan, 4 mock papers
+public/js/schedule.js  the editable weekly timetable
+public/js/news.js      the News Desk page
+public/js/hobbies/     piano, golf, AI and 3D printing — one file each
+public/js/lesson.js    lesson view + quiz runner + grading
+public/js/sprites.js   chess character art (SVG), one cast per theme
+public/js/chess.js     chess rules engine + AI + board UI
+public/js/ludo.js      ludo rules engine + AI + board UI
+public/js/app.js       state, routing, rendering
+books/                 drop his textbook PDFs here
+lesson-plans/          generated lesson plans land here
+data/state.json        his saved progress
+```
+
+Progress saves to `data/state.json` on the disk, so it survives clearing the browser.
+Back up that one file and nothing is ever lost.

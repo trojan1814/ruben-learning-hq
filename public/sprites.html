@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chess Squad — Sprite Sheet</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♟️</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Rajdhani:wght@500;600;700&family=Luckiest+Guy&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/theme.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/mario.css" />
+  <script src="/js/theme.js"></script>
+  <style>
+    body { overflow: auto; padding: 34px 28px 60px; }
+    .wrap { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+    h1 { font-size: 26px; }
+    .sub { color: var(--text-dim); margin-top: 6px; font-size: 14px; }
+    .picker { max-width: 260px; margin-top: 18px; }
+    .sheet { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 26px; }
+    .cell { padding: 18px 14px 16px; text-align: center; border-color: color-mix(in srgb, var(--rarity) 42%, var(--line)); }
+    .cell::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--rarity) 22%, transparent), transparent 66%);
+      pointer-events: none;
+    }
+    .pair { display: flex; gap: 6px; justify-content: center; position: relative; }
+    .art { width: 96px; height: 112px; }
+    .art svg { width: 100%; height: 100%; overflow: visible; }
+    .team { font-size: 9px; letter-spacing: 1.4px; color: var(--text-mut); text-transform: uppercase; margin-top: 4px; font-weight: 800; }
+    .cell h3 { font-size: 15px; margin-top: 12px; position: relative; }
+    .cell .role { font-size: 12.5px; color: var(--rarity); font-weight: 700; margin-top: 3px; position: relative; }
+    .cell p { font-size: 11.5px; color: var(--text-dim); line-height: 1.45; margin-top: 8px; position: relative; }
+    .cell .rarity-tag { position: relative; display: inline-block; margin-top: 10px; }
+    .onboard { display: grid; grid-template-columns: repeat(8, 1fr); max-width: 520px; margin: 26px 0 0; border: 3px solid var(--board-frame); border-radius: 10px; overflow: hidden; }
+    .obs { aspect-ratio: 1; display: grid; place-items: center; }
+    .obs.l { background: var(--sq-light); } .obs.d { background: var(--sq-dark); }
+    .obs svg { width: 96%; height: 96%; overflow: visible; }
+    a.back { color: var(--cyan); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Back to Learning HQ</a>
+    <h1 style="margin-top:14px">♟️ Chess Squad — Sprite Sheet</h1>
+    <div class="sub" id="sub"></div>
+
+    <div class="theme-switch picker">
+      <button data-theme-pick="hq"><span>🎮</span> Battle HQ</button>
+      <button data-theme-pick="mario"><span>🍄</span> Mario</button>
+    </div>
+
+    <div class="sheet" id="sheet"></div>
+
+    <h1 style="margin-top:44px; font-size:19px">On the board</h1>
+    <div class="sub">Back rank as it renders in-game.</div>
+    <div class="onboard" id="onboard"></div>
+  </div>
+
+  <script src="/js/data.js"></script>
+  <script src="/js/sprites.js"></script>
+  <script>
+    const ROLE = { k: 'King', q: 'Queen', r: 'Rook', b: 'Bishop', n: 'Knight', p: 'Pawn' };
+
+    function draw() {
+      document.getElementById('sub').textContent =
+        themeId === 'mario'
+          ? 'Rarity climbs with the piece. True colours = your crew, shadow = Bowser\u2019s crew.'
+          : 'Rarity climbs with the piece. Light armour = your squad, dark armour = the enemy.';
+
+      document.getElementById('sheet').innerHTML = ROSTER_ORDER.map((t) => {
+        const st = pieceStyle(t);
+        return `<div class="panel clip cell" style="--rarity:var(--r-${st.rarity})">
+          <div class="pair">
+            <div><div class="art">${pieceSprite(t, 'w')}</div><div class="team">${C('you')}</div></div>
+            <div><div class="art">${pieceSprite(t, 'b')}</div><div class="team">${C('foe')}</div></div>
+          </div>
+          <h3>${st.name}</h3>
+          <div class="role">${PIECE_GLYPH[t]} ${ROLE[t]}</div>
+          <p>${pieceLore(t)}</p>
+          <span class="rarity-tag" style="--rarity:var(--r-${st.rarity})">${rarityLabel(st.rarity)}</span>
+        </div>`;
+      }).join('');
+
+      const back = ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'];
+      document.getElementById('onboard').innerHTML =
+        back.map((t, i) => `<div class="obs ${i % 2 ? 'd' : 'l'}">${pieceSprite(t, 'b')}</div>`).join('') +
+        back.map((t, i) => `<div class="obs ${i % 2 ? 'l' : 'd'}">${pieceSprite(t, 'w')}</div>`).join('');
+
+      paintChrome();
+    }
+
+    document.addEventListener('click', (e) => {
+      const pick = e.target.closest('[data-theme-pick]');
+      if (!pick) return;
+      setTheme(pick.dataset.themePick);
+      draw();
+    });
+
+    draw();
+  </script>
+</body>
+</html>

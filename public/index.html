@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ruben's Learning HQ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Rajdhani:wght@500;600;700&family=Luckiest+Guy&family=Fredoka:wght@500;600;700&family=Noto+Sans+Devanagari:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/theme.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/games.css" />
+  <link rel="stylesheet" href="/css/lesson.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/mario.css" />
+  <!-- Loaded first so the saved skin is on <html> before anything paints. -->
+  <script src="/js/theme.js"></script>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark" data-t="brand.mark">🎮</div>
+        <div class="brand-text">
+          <h1 data-t="brand.title">Learning HQ</h1>
+          <span data-t="brand.season">Season 1</span>
+        </div>
+      </div>
+
+      <div class="theme-switch">
+        <button data-theme-pick="hq"><span>🎮</span> Battle HQ</button>
+        <button data-theme-pick="mario"><span>🍄</span> Mario</button>
+      </div>
+
+      <div class="panel clip player-card">
+        <div class="player-avatar" data-t="player.avatar">🦸</div>
+        <div class="player-name" id="playerName">Ruben Sandhu</div>
+        <div class="player-level">⭐ <span data-t="player.level">Level</span> <span id="playerLevel">1</span></div>
+        <div class="xpbar"><span id="playerXpBar"></span></div>
+        <div class="player-xp-text">
+          <span id="playerXpNow">0 XP</span>
+          <span id="playerXpNext">/ 500</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-label" data-t="nav.group.main">Command Center</div>
+        <button class="nav-item" data-route="home"><span class="ico" data-t="ico.home">🏠</span> <span data-t="nav.home">Home Base</span></button>
+        <button class="nav-item" data-route="news"><span class="ico" data-t="ico.news">📰</span> <span data-t="nav.news">News Desk</span><span class="badge hidden" id="newsBadge">0</span></button>
+        <button class="nav-item" data-route="subjects"><span class="ico" data-t="ico.subjects">🎯</span> <span data-t="nav.subjects">Mission Zones</span></button>
+        <button class="nav-item" data-route="games"><span class="ico" data-t="ico.games">🕹️</span> <span data-t="nav.games">Game Arena</span></button>
+        <button class="nav-item" data-route="battlepass"><span class="ico" data-t="ico.battlepass">🏆</span> <span data-t="nav.battlepass">Battle Pass</span></button>
+        <button class="nav-item" data-route="olympiad"><span class="ico" data-t="ico.olympiad">🇮🇳</span> <span data-t="nav.olympiad">Olympiad Ops</span></button>
+        <button class="nav-item" data-route="schedule"><span class="ico" data-t="ico.schedule">📅</span> <span data-t="nav.schedule">Mission Board</span></button>
+        <button class="nav-item" data-route="hobbies"><span class="ico" data-t="ico.hobbies">🎹</span> <span data-t="nav.hobbies">Side Quests</span></button>
+        <button class="nav-item" data-route="vault"><span class="ico" data-t="ico.vault">📚</span> <span data-t="nav.vault">Book Vault</span><span class="badge hidden" id="vaultBadge">0</span></button>
+        <div class="nav-label" style="margin-top:14px" data-t="nav.group.adult">Grown-Ups</div>
+        <button class="nav-item" data-route="parent"><span class="ico" data-t="ico.parent">🛡️</span> <span data-t="nav.parent">Parent Zone</span></button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="panel clip coin-box">
+          <span style="font-size:22px" data-t="coins.icon">🪙</span>
+          <div>
+            <div class="amt" id="coinAmount">0</div>
+            <div class="lbl" data-t="coins.label">Star Coins</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+      <div class="topbar">
+        <div>
+          <div class="greeting" id="greeting">Good day, commander</div>
+          <h2 id="pageTitle">Drop In, <em>Ruben</em></h2>
+        </div>
+        <div class="topbar-actions">
+          <div class="panel clip streak-chip">
+            <span style="font-size:17px" data-t="topbar.streakIcon">🔥</span>
+            <div>
+              <div class="n" id="streakNum">0</div>
+              <div class="t" data-t="topbar.streak">Day Streak</div>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="btnResume" data-t="topbar.resume">▶ Start Session</button>
+        </div>
+      </div>
+
+      <div id="view"></div>
+    </main>
+
+    <!-- ============ RIGHT RAIL ============ -->
+    <aside class="rail">
+      <section>
+        <div class="section-head" style="margin-bottom:12px">
+          <div>
+            <h3 data-t="rail.quests">Daily Quests</h3>
+            <div class="date" id="questDate"></div>
+          </div>
+        </div>
+        <div id="questList"></div>
+      </section>
+
+      <section>
+        <div class="section-head" style="margin-bottom:12px">
+          <div>
+            <h3 data-t="rail.schedule">Today's Schedule</h3>
+            <div class="date" id="todayDate"></div>
+          </div>
+        </div>
+        <div id="scheduleList"></div>
+      </section>
+
+      <section>
+        <div class="section-head" style="margin-bottom:12px"><h3 data-t="rail.stats">Career Stats</h3></div>
+        <div class="stat-grid">
+          <div class="panel clip stat-box"><div class="n" id="statLessons">0</div><div class="t" data-t="stat.lessons">Lessons</div></div>
+          <div class="panel clip stat-box"><div class="n" id="statXp">0</div><div class="t" data-t="stat.xp">Total XP</div></div>
+          <div class="panel clip stat-box"><div class="n" id="statQuests">0</div><div class="t" data-t="stat.quests">Quests</div></div>
+          <div class="panel clip stat-box"><div class="n" id="statTier">1</div><div class="t" data-t="stat.tier">Tier</div></div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <div class="toast-wrap" id="toastWrap"></div>
+  <div id="modalRoot"></div>
+
+  <script src="/js/data.js"></script>
+  <script src="/js/curriculum/_schema.js"></script>
+  <script src="/js/curriculum/english.js"></script>
+  <script src="/js/curriculum/hindi.js"></script>
+  <script src="/js/curriculum/math.js"></script>
+  <script src="/js/curriculum/science.js"></script>
+  <script src="/js/curriculum/geography.js"></script>
+  <script src="/js/curriculum/computer-science.js"></script>
+  <script src="/js/curriculum/general-knowledge.js"></script>
+  <script src="/js/olympiad/_meta.js"></script>
+  <script src="/js/olympiad/science.js"></script>
+  <script src="/js/olympiad/maths.js"></script>
+  <script src="/js/olympiad/english.js"></script>
+  <script src="/js/olympiad/computer.js"></script>
+  <script src="/js/olympiad/view.js"></script>
+  <script src="/js/schedule.js"></script>
+  <script src="/js/news.js"></script>
+  <script src="/js/hobbies/_view.js"></script>
+  <script src="/js/hobbies/piano.js"></script>
+  <script src="/js/hobbies/golf.js"></script>
+  <script src="/js/hobbies/ai.js"></script>
+  <script src="/js/hobbies/printing.js"></script>
+  <script src="/js/sprites.js"></script>
+  <script src="/js/chess.js"></script>
+  <script src="/js/ludo.js"></script>
+  <script src="/js/lesson.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+Paste Ruben's Math textbook PDFs into this folder.
+Then open the dashboard and click Book Vault -> Rescan Vault.

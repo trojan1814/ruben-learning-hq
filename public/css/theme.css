@@ -1,0 +1,247 @@
+/* ============================================================
+   THEME - tokens, base styles, reusable components
+   Battle-royale HUD look: dark, neon, angular, loud.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --bg-deep:    #06060f;
+  --bg:         #0b0b1a;
+  --surface:    #12122a;
+  --surface-2:  #1a1a38;
+  --surface-3:  #23234a;
+  --line:       #2e2e5c;
+
+  /* Neon accents */
+  --cyan:    #00e5ff;
+  --violet:  #8b5cf6;
+  --magenta: #ff2e9a;
+  --yellow:  #ffd60a;
+  --lime:    #7cff5a;
+  --orange:  #ff7a1a;
+
+  /* Text */
+  --text:     #eef1ff;
+  --text-dim: #98a0c8;
+  --text-mut: #5f6795;
+
+  /* Rarity */
+  --r-common:    #9aa6b2;
+  --r-uncommon:  #4ade80;
+  --r-rare:      #38bdf8;
+  --r-epic:      #c084fc;
+  --r-legendary: #fbbf24;
+  --r-mythic:    #f97316;
+
+  /* Board squares (chess) + ludo board ground */
+  --sq-light: #4d4d85;
+  --sq-dark:  #2e2e58;
+  --board-frame: var(--surface-3);
+  --ludo-bg: #14142c;
+  --ludo-track: #22224a;
+  --ludo-safe: #2c2c5e;
+
+  --radius: 14px;
+  --cut: 16px; /* angular corner cut */
+  --shadow: 0 18px 45px rgba(0, 0, 0, .55);
+  --glow: 0 0 24px rgba(0, 229, 255, .28);
+
+  --font-display: 'Russo One', 'Arial Black', 'Segoe UI', system-ui, sans-serif;
+  --font-ui: 'Rajdhani', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-deva: 'Noto Sans Devanagari', 'Nirmala UI', var(--font-ui);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background:
+    radial-gradient(1100px 700px at 12% -10%, rgba(139, 92, 246, .22), transparent 60%),
+    radial-gradient(900px 600px at 92% 0%, rgba(0, 229, 255, .16), transparent 55%),
+    radial-gradient(800px 700px at 60% 110%, rgba(255, 46, 154, .12), transparent 60%),
+    var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* Faint diagonal grid overlay, like a HUD */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .022) 1px, transparent 1px);
+  background-size: 46px 46px;
+  z-index: 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+button { font-family: inherit; color: inherit; cursor: pointer; border: none; background: none; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--violet); }
+
+.deva { font-family: var(--font-deva); }
+
+/* ---------- Angular panel ---------- */
+.panel {
+  background: linear-gradient(160deg, rgba(26, 26, 56, .92), rgba(18, 18, 42, .92));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+.clip {
+  clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  --btn-bg: var(--surface-3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  background: var(--btn-bg);
+  border: 1px solid rgba(255, 255, 255, .12);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  transition: transform .13s ease, filter .13s ease, box-shadow .13s ease;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.15); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+  --btn-bg: linear-gradient(135deg, var(--cyan), var(--violet));
+  color: #04041a;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 229, 255, .28);
+}
+.btn-primary:hover { box-shadow: 0 12px 32px rgba(0, 229, 255, .45); }
+
+.btn-hot {
+  --btn-bg: linear-gradient(135deg, var(--magenta), var(--orange));
+  color: #16000c;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(255, 46, 154, .3);
+}
+
+.btn-ghost { --btn-bg: transparent; border-color: var(--line); color: var(--text-dim); }
+.btn-ghost:hover { color: var(--text); border-color: var(--cyan); }
+
+.btn-sm { padding: 7px 13px; font-size: 11px; }
+
+/* ---------- Chips & pills ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .1);
+  color: var(--text-dim);
+}
+
+.rarity-tag {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  padding: 4px 10px;
+  color: #05050f;
+  background: var(--rarity, var(--r-common));
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+/* ---------- XP bar ---------- */
+.xpbar {
+  height: 12px;
+  background: rgba(0, 0, 0, .45);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+}
+.xpbar > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--cyan), var(--violet) 55%, var(--magenta));
+  box-shadow: 0 0 16px rgba(0, 229, 255, .55);
+  transition: width .6s cubic-bezier(.2, .9, .25, 1);
+}
+.xpbar.thin { height: 7px; }
+
+/* ---------- Section heading ---------- */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.section-head h2 { font-size: 19px; }
+.section-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+
+/* ---------- Utility ---------- */
+.muted { color: var(--text-dim); }
+.tiny { font-size: 12px; letter-spacing: .6px; }
+.stack { display: flex; flex-direction: column; }
+.row { display: flex; align-items: center; }
+.gap-8 { gap: 8px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; }
+.hidden { display: none !important; }
+
+@keyframes pop-in { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+@keyframes pulse-glow { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+@keyframes float-up { from { opacity: 1; transform: translate(-50%, 0) scale(1); } to { opacity: 0; transform: translate(-50%, -90px) scale(1.5); } }
+@keyframes shine { from { background-position: -200% center; } to { background-position: 200% center; } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* While a theme swap is in flight, kill transitions. Without this, anything
+   with `transition: all` (nav items, chips) keeps painting the OLD theme's
+   colour until the next full re-render. */
+.theme-swap, .theme-swap *, .theme-swap *::before, .theme-swap *::after {
+  transition: none !important;
+}
+
+/* Highlight spans used inside body copy (kept out of inline styles so a
+   theme can restate them). */
+.hi { color: var(--yellow); }
+.hi-ok { color: var(--lime); }
+.hi-code {
+  color: var(--cyan);
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.btn-danger { color: var(--magenta); border-color: var(--magenta); }
