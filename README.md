@@ -57,38 +57,53 @@ third skin, add an entry to `THEMES`, a matching `SPRITE_SETS` cast, a
 
 ## 🚀 Putting it online (Vercel)
 
-The app runs two ways from one codebase: `server.js` on this PC, and Vercel
+The app runs two ways from one codebase: `local-server.js` on this PC, and Vercel
 serverless functions when deployed. Both call the **same handler files** in
 `api/`, so local and live can never drift apart.
 
-### Deploy it
+### It is already live
 
-Everything is prepared and committed. Two commands, from this folder:
+**https://ruben-learning-hq.vercel.app**
+
+Deployed under the **tricity-smiles** scope alongside `family-ledger` and
+`tricity-smiles-pms`. To push changes after editing anything:
 
 ```bash
-npx vercel login
+npx vercel --prod
+```
+
+Two things had to be true for this to work on Vercel, and both are easy to
+break by accident:
+
+- The local server is called **`local-server.js`, not `server.js`**. Vercel
+  auto-detects a root `server.js` and runs it as a serverless function — which
+  a long-lived listener cannot be. Renaming it back breaks the deployment.
+- `vercel.json` sets **`"framework": null`**. Without it Vercel applies its
+  Node.js preset and demands a server entrypoint instead of serving `public/`
+  as static files with `api/` as functions.
+
+### Still to do: connect the database
+
+Right now the live site saves progress **in the browser only** — the Parent Zone
+says so with an amber warning. Connecting Upstash Redis makes progress follow him
+to any device. It needs one step in a browser, because Upstash requires you to
+accept their EULA yourself:
+
+1. Open <https://vercel.com/tricity-smiles/~/integrations/accept-terms/upstash?source=cli>
+   and accept the terms
+2. Then run:
+
+```bash
+npx vercel integration add upstash/upstash-kv
 ```
 
 ```bash
 npx vercel --prod
 ```
 
-The first asks which account to use and opens a browser to sign in. The second
-uploads, runs `build.js` and gives you a live URL. Re-run just the second
-command any time you change something.
-
-> The first upload includes the 37 MB textbook PDF, so give it a minute.
-
-### Then connect the database (5 minutes)
-
-Without it the site still works fully, but progress lives in whichever browser
-he happens to use. With it, progress follows him to any device.
-
-1. Vercel dashboard → your project → **Storage** → **Create Database**
-2. Pick **Upstash Redis** from the Marketplace (there is a free tier)
-3. Connect it to the project — Vercel adds `KV_REST_API_URL` and
-   `KV_REST_API_TOKEN` to the environment automatically
-4. Redeploy: `npx vercel --prod`
+Vercel adds `KV_REST_API_URL` and `KV_REST_API_TOKEN` to the environment on its
+own, and `api/state.js` picks them up with no further configuration. The Parent
+Zone badge flips to ☁️ *Saved to the cloud* once it is working.
 
 `api/state.js` picks those up on its own. Nothing else to configure.
 
