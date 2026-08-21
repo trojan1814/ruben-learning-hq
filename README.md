@@ -63,14 +63,25 @@ serverless functions when deployed. Both call the **same handler files** in
 
 ### It is already live
 
-**https://ruben-learning-hq.vercel.app**
+| | |
+|---|---|
+| **Live site** | https://ruben-learning-hq.vercel.app |
+| **Source** | https://github.com/trojan1814/ruben-learning-hq |
+| **Vercel scope** | `tricity-smiles`, alongside `family-ledger` and `tricity-smiles-pms` |
+| **Progress** | Upstash Redis (`upstash-kv-bisque-plank`) — follows him to any device |
 
-Deployed under the **tricity-smiles** scope alongside `family-ledger` and
-`tricity-smiles-pms`. To push changes after editing anything:
+GitHub is connected, so **pushing deploys**:
 
 ```bash
-npx vercel --prod
+git add -A && git commit -m "what changed" && git push
 ```
+
+Vercel builds every push to `main` and puts it live. To deploy without a commit,
+`npx vercel --prod` still works.
+
+> The repo is **public** for now. It contains Ruben's name in the code defaults
+> and the Cambridge textbook PDF, so switch it to private when beta testing ends:
+> `gh repo edit trojan1814/ruben-learning-hq --visibility private`
 
 Two things had to be true for this to work on Vercel, and both are easy to
 break by accident:
