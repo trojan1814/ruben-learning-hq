@@ -3,20 +3,26 @@
    Loaded last; everything here is scoped to [data-theme="ra3"].
    The battle-royale skin is the default and is left untouched.
 
-   Look: an Allied war room. Gunmetal panels, stencil type, hazard
-   stripes, alert red for anything urgent and Allied blue for
-   anything you are supposed to click. Boards are olive-drab map
-   squares, so the blue army and the red army both read clearly.
+   Look: the Red Alert 3 main menu — a flat propaganda poster with
+   crimson rays fanning out behind everything, and hard-edged solid
+   plates sitting on top of it. Alert red for anything urgent,
+   Allied blue for anything you are supposed to click. Boards are
+   olive-drab map squares, so both armies read clearly.
+
+   The one rule that keeps this legible: the poster stays in the
+   BACKGROUND and never behind text. Every surface that holds words
+   is fully opaque, with no blur and no pattern showing through —
+   exactly like the menu plates in the game.
    ============================================================ */
 
 [data-theme="ra3"] {
-  /* Surfaces — cold rolled steel */
-  --bg-deep:   #070a0e;
-  --bg:        #0d1218;
-  --surface:   #151c25;
-  --surface-2: #1d2733;
-  --surface-3: #293544;
-  --line:      #3a4959;
+  /* Surfaces — opaque, warm charcoal so the crimson ground reads as one piece */
+  --bg-deep:   #0a0607;
+  --bg:        #140d0f;
+  --surface:   #1b1518;
+  --surface-2: #241c1f;
+  --surface-3: #322629;
+  --line:      #4a3a3d;
 
   /* Accents — Allied blue leads, Soviet red is the alarm */
   --cyan:    #3f9bf0;  /* Allied blue, the "primary" accent */
@@ -52,7 +58,12 @@
   --shadow: 0 16px 40px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .04);
   --glow: 0 0 22px rgba(255, 59, 48, .3);
 
-  --font-display: 'Black Ops One', 'Russo One', 'Arial Black', system-ui, sans-serif;
+  /* Chakra Petch, not a distressed stencil. --font-display is used as small
+     as 11px (difficulty names, rarity tags, XP chips) and a face with eroded
+     edges turns to mush down there. This one has hard clipped corners that
+     stay sharp. Only the 700 weight is loaded, so the `font-weight: 400` the
+     base sheet puts on headings still resolves to the bold cut. */
+  --font-display: 'Chakra Petch', 'Russo One', 'Arial Black', system-ui, sans-serif;
   --font-ui: 'Barlow Condensed', 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
 }
 
@@ -60,20 +71,23 @@
    so the body copy stays as readable as it is on the other two. */
 [data-theme="ra3"] body {
   font-size: 17.5px;
+  /* The poster: crimson rays fanning out from above the masthead, over a
+     deep red-to-black ground. Flat and hard-edged, like the menu art. */
   background:
-    radial-gradient(900px 600px at 50% -12%, rgba(255, 59, 48, .16), transparent 62%),
-    radial-gradient(1000px 700px at 8% 8%, rgba(63, 155, 240, .12), transparent 58%),
-    radial-gradient(900px 700px at 96% 100%, rgba(200, 52, 44, .1), transparent 60%),
-    var(--bg-deep);
+    repeating-conic-gradient(from 188deg at 52% -16%,
+      rgba(226, 58, 44, .16) 0deg 2.4deg, transparent 2.4deg 8.4deg),
+    radial-gradient(112% 88% at 52% -16%,
+      #7a1a14 0%, #3f0d0b 24%, #1a0707 48%, var(--bg-deep) 74%);
   color: var(--text);
 }
 
-/* Scan lines + hazard stripes instead of the HUD grid */
+/* A vignette, not a texture. The old scan lines and hazard stripes sat on
+   top of everything and turned body copy to mush — the rays live in the
+   background layer instead, where they cannot touch a word. */
 [data-theme="ra3"] body::before {
   background-image:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, .028) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(45deg, rgba(255, 198, 26, .035) 0 14px, transparent 14px 28px);
-  background-size: auto, auto;
+    radial-gradient(120% 90% at 50% 40%, transparent 45%, rgba(0, 0, 0, .55) 100%);
+  background-size: auto;
 }
 
 [data-theme="ra3"] h1,
@@ -84,11 +98,14 @@
 [data-theme="ra3"] :focus-visible { outline: 2px solid var(--magenta); outline-offset: 3px; }
 [data-theme="ra3"] ::-webkit-scrollbar-thumb:hover { background: var(--cyan); }
 
-/* ---------- Panels are stamped steel plate ---------- */
+/* ---------- Panels are stamped steel plate ----------
+   Solid, not translucent. On the other skins a panel lets a little of the
+   backdrop through; against a bright poster that is what made body copy
+   swim, so here a panel is a real plate with nothing behind it. */
 [data-theme="ra3"] .panel {
-  background: linear-gradient(165deg, rgba(29, 39, 51, .95), rgba(15, 21, 28, .95));
+  background: linear-gradient(165deg, #262023, #171215);
   border: 1px solid var(--line);
-  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .05);
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .06);
 }
 
 /* ---------- Buttons: stencilled, hard-edged ---------- */
@@ -120,10 +137,14 @@
   box-shadow: 0 0 14px rgba(63, 155, 240, .5);
 }
 
-/* ============ SIDEBAR / RAIL ============ */
+/* ============ SIDEBAR / RAIL ============
+   The base sheet frosts these with backdrop-filter: blur(12px) over a
+   translucent fill. That blur is the single biggest reason text looked
+   soft here, so both columns become solid and the filter comes off. */
 [data-theme="ra3"] .sidebar,
 [data-theme="ra3"] .rail {
-  background: linear-gradient(180deg, rgba(21, 28, 37, .9), rgba(7, 10, 14, .92));
+  background: linear-gradient(180deg, #201a1d, #100b0d);
+  backdrop-filter: none;
 }
 [data-theme="ra3"] .sidebar { border-right: 1px solid var(--line); }
 
@@ -152,22 +173,35 @@
 [data-theme="ra3"] .nav-item .badge { background: var(--magenta); }
 
 [data-theme="ra3"] .coin-box {
-  background: linear-gradient(160deg, rgba(255, 198, 26, .16), rgba(21, 28, 37, .9));
+  background: linear-gradient(160deg, #3d3423, #211a1c);
   border-color: rgba(255, 198, 26, .35);
 }
 [data-theme="ra3"] .coin-box .amt { color: var(--yellow); }
+
+/* Schedule cards keep the default skin's neon violet, which is both
+   off-palette here and translucent over the poster on the Battle Plan page. */
+[data-theme="ra3"] .sched-card {
+  background: linear-gradient(135deg, #2c2226, #1b1518);
+  border: 1px solid rgba(255, 91, 74, .3);
+}
 
 /* ============ TOPBAR / HERO ============ */
 [data-theme="ra3"] .topbar .greeting { color: var(--magenta); letter-spacing: 1.4px; }
 [data-theme="ra3"] .topbar h2 em { color: var(--cyan); font-style: normal; }
 [data-theme="ra3"] .streak-chip { border-color: rgba(255, 198, 26, .3); }
 
+/* The hero is the one place the poster is allowed on a surface — as its own
+   sunburst, contained, with the text sitting on the solid part of the sweep. */
 [data-theme="ra3"] .hero {
   background:
-    repeating-linear-gradient(45deg, rgba(255, 198, 26, .05) 0 12px, transparent 12px 24px),
-    linear-gradient(115deg, rgba(200, 52, 44, .5), rgba(21, 28, 37, .95) 58%, rgba(28, 95, 174, .45));
-  border: 1px solid rgba(255, 91, 74, .35);
+    repeating-conic-gradient(from 200deg at 12% 120%,
+      rgba(255, 120, 100, .09) 0deg 3deg, transparent 3deg 10deg),
+    linear-gradient(112deg, #8d201a 0%, #4d1210 38%, #241a1d 72%, #1b2b40 100%);
+  border: 1px solid rgba(255, 91, 74, .4);
 }
+/* The base sheet sweeps a moving highlight across the hero forever. On a flat
+   poster that reads as a smear passing under the text. */
+[data-theme="ra3"] .hero::after { animation: none; background: none; }
 [data-theme="ra3"] .hero-tier .n { color: var(--yellow); }
 
 /* ============ GAMES — chess front ============ */
@@ -197,10 +231,25 @@
   filter: drop-shadow(0 0 3px rgba(63, 155, 240, .45)) drop-shadow(0 3px 5px rgba(0, 0, 0, .7));
 }
 
+/* The status card replaces its panel background with a tint, which on this
+   skin left the poster showing straight through the words. Each variant
+   keeps its tint but now sits on the same solid plate as every other panel. */
 [data-theme="ra3"] .status-card { border-left-width: 5px; }
-[data-theme="ra3"] .status-card.go   { border-left-color: var(--cyan);    background: linear-gradient(100deg, rgba(63, 155, 240, .18), transparent 60%); }
-[data-theme="ra3"] .status-card.wait { border-left-color: var(--violet);  background: linear-gradient(100deg, rgba(200, 52, 44, .18), transparent 60%); }
-[data-theme="ra3"] .status-card.warn { border-left-color: var(--magenta); background: linear-gradient(100deg, rgba(255, 59, 48, .22), transparent 60%); }
+[data-theme="ra3"] .status-card.go,
+[data-theme="ra3"] .status-card.wait,
+[data-theme="ra3"] .status-card.warn,
+[data-theme="ra3"] .status-card.win,
+[data-theme="ra3"] .status-card.loss,
+[data-theme="ra3"] .status-card.draw {
+  background-image: linear-gradient(100deg, var(--tint), transparent 60%),
+                    linear-gradient(165deg, #262023, #171215);
+}
+[data-theme="ra3"] .status-card.go   { --tint: rgba(63, 155, 240, .22); border-left-color: var(--cyan); }
+[data-theme="ra3"] .status-card.wait { --tint: rgba(200, 52, 44, .22);  border-left-color: var(--violet); }
+[data-theme="ra3"] .status-card.warn { --tint: rgba(255, 59, 48, .26);  border-left-color: var(--magenta); }
+[data-theme="ra3"] .status-card.win  { --tint: rgba(95, 191, 114, .24); border-left-color: var(--lime); }
+[data-theme="ra3"] .status-card.loss { --tint: rgba(255, 59, 48, .26);  border-left-color: var(--magenta); }
+[data-theme="ra3"] .status-card.draw { --tint: rgba(255, 198, 26, .22); border-left-color: var(--yellow); }
 
 [data-theme="ra3"] .diff-btn.on {
   border-color: var(--magenta);
