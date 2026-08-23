@@ -25,8 +25,8 @@ entire app between three complete skins:
 
 | | 🎮 **Battle HQ** | 🍄 **Super Mario** | 🚨 **Red Alert** |
 |---|---|---|---|
-| Look | Dark neon HUD, angular panels | Blue sky, cream blocks, thick brown outlines | Gunmetal war room, scan lines, hazard stripes |
-| Fonts | Russo One / Rajdhani | Luckiest Guy / Fredoka | Black Ops One / Barlow Condensed |
+| Look | Dark neon HUD, angular panels | Blue sky, cream blocks, thick brown outlines | Crimson propaganda poster, solid plates, no blur |
+| Fonts | Russo One / Rajdhani | Luckiest Guy / Fredoka | Chakra Petch / Barlow Condensed |
 | Home | Home Base | Peach's Castle | Command Center |
 | Subjects | Mission Zones | Worlds | Combat Zones |
 | Rewards | Battle Pass · Tiers · Star Coins | Star Road · Stars · Gold Coins | Medal Board · Medals · War Funds |
@@ -432,17 +432,27 @@ One file per hobby in `public/js/hobbies/` — edit the lessons, tips and routin
 
 ## The curriculum
 
-**48 units, 384 questions**, written at **Class 3** level.
+**51 units, 416 questions**, written at **Class 3** level.
 
 | Subject | Units | Questions | Based on |
 |---|---|---|---|
 | English | 10 | 80 | **Cambridge Primary English 3 — his actual school book** |
 | Hindi | 6 | 48 | NCERT रिमझिम 3 + व्याकरण |
-| Math | 7 | 56 | NCERT Math-Magic 3 |
+| Math | 10 | 88 | NCERT Math-Magic 3 + **his Mental Arithmetic workbooks** |
 | Science (EVS) | 6 | 48 | NCERT Looking Around 3 |
 | Geography | 7 | 56 | Standard Class 3 syllabus — *not yet book-matched* |
 | Computer Science | 6 | 48 | Standard CBSE Class 3 computer syllabus |
 | General Knowledge | 6 | 48 | India + world GK |
+
+### Math includes his mental arithmetic workbooks
+
+The last three Math units — ⚡ Speed Facts, 🔟 Tens & Sets and 🪙 Money & Measures — are
+built from the two workbooks in `books/Math/` (exercises 44–97), and they deliberately
+keep the book's idiom: one blank box per question, ₹ and paise, km/m and kg/g, "5 sets
+of 20", "how many 12s are there in 144?", "put < or >". The teaching cards cover the
+mental *strategy* — undo a multiplication to find a missing factor, let zeros travel from
+a small fact to a big one, chop the ones off to read the tens — so the app teaches the
+trick and the physical book is where he drills it.
 
 ### English follows his school book
 
