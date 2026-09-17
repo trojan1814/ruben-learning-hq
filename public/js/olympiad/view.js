@@ -74,7 +74,8 @@ const OlympiadView = {
             <div class="sub">
               Next up: <b class="hi">${esc(next.s.name)}</b> on <b class="hi">${fmtDate(next.s.date)}</b> —
               ${next.d >= 0 ? next.d + ' days away' : 'date has passed'}.
-              Round 1 runs 1–5 December 2026, with a second slot in January.
+              The ${upcoming.length} papers run from ${fmtDate(upcoming[0].s.date)} to
+              ${fmtDate(upcoming[upcoming.length - 1].s.date)} at their earliest slots.
             </div>
           </div>
           <div class="hero-tier clip">
@@ -105,7 +106,7 @@ const OlympiadView = {
         <span class="pill">${overall}% overall</span></div>
 
       <div class="grid">
-        ${OLYMPIAD.subjects.map((s, i) => {
+        ${upcoming.map(({ s }, i) => {
           const r = this.readiness(s.id);
           const d = daysUntil(s.date);
           return `

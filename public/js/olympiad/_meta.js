@@ -49,6 +49,8 @@ const OLYMPIAD = {
     hots: { key: 'hots', label: 'HOTs', icon: '🧠', blurb: '5 tough ones — two steps of thinking, not one.' },
   },
 
+  /* Kept in exam-date order — the order he actually sits them. If a date
+     changes, move the entry too; the pages sort by date regardless. */
   subjects: [
     {
       /* First paper of the season — and the one the GK question bank in
@@ -101,27 +103,15 @@ const OLYMPIAD = {
       ],
     },
     {
-      id: 'science', code: 'ISO', short: 'Science', icon: '🔬', rarity: 'uncommon',
-      name: 'SOF International Science Olympiad',
-      date: '2026-10-30', slots: ['2026-11-19', '2026-12-03'],
-      links: 'science',
+      id: 'computer', code: 'ICSO', short: 'Computer', icon: '💻', rarity: 'mythic',
+      name: 'SOF International Computer Science Olympiad',
+      date: '2026-09-24', slots: ['2026-12-17'],
+      links: 'computer-science',
       syllabus: [
-        'Living and Non-Living', 'Plants and Their Parts', 'Animals and Their Habitat',
-        'The Human Body', 'Cleanliness, Health and Hygiene', 'Food and Its Components',
-        'Housing and Clothing', 'Forms of Matter — Solids, Liquids, Gases',
-        'Water as a Resource', 'Transport and Communication', 'Weather and Sky',
-        'Light and Sound', 'Logical Reasoning',
-      ],
-    },
-    {
-      id: 'maths', code: 'IMO', short: 'Maths', icon: '🔢', rarity: 'legendary',
-      name: 'SOF International Mathematics Olympiad',
-      date: '2026-10-23', slots: ['2026-11-26', '2026-12-10'],
-      links: 'math',
-      syllabus: [
-        'Number System', 'Addition and Subtraction', 'Multiplication and Division',
-        'Fractions', 'Basic Geometric Shapes', 'Measurement — Length, Weight, Capacity',
-        'Time and Calendar', 'Money', 'Data Handling', 'Logical Reasoning',
+        'Fundamentals of Computer', 'Parts of a Computer', 'Input and Output Devices',
+        'Storage Devices', 'Uses of Computers', 'Introduction to the Internet',
+        'MS-Paint', 'Introduction to MS-Word', 'Latest Developments in IT',
+        'Logical Reasoning',
       ],
     },
     {
@@ -137,18 +127,30 @@ const OLYMPIAD = {
       ],
     },
     {
-      id: 'computer', code: 'ICSO', short: 'Computer', icon: '💻', rarity: 'mythic',
-      name: 'SOF International Computer Science Olympiad',
-      date: '2026-09-24', slots: ['2026-12-17'],
-      links: 'computer-science',
+      id: 'maths', code: 'IMO', short: 'Maths', icon: '🔢', rarity: 'legendary',
+      name: 'SOF International Mathematics Olympiad',
+      date: '2026-10-23', slots: ['2026-11-26', '2026-12-10'],
+      links: 'math',
       syllabus: [
-        'Fundamentals of Computer', 'Parts of a Computer', 'Input and Output Devices',
-        'Storage Devices', 'Uses of Computers', 'Introduction to the Internet',
-        'MS-Paint', 'Introduction to MS-Word', 'Latest Developments in IT',
-        'Logical Reasoning',
+        'Number System', 'Addition and Subtraction', 'Multiplication and Division',
+        'Fractions', 'Basic Geometric Shapes', 'Measurement — Length, Weight, Capacity',
+        'Time and Calendar', 'Money', 'Data Handling', 'Logical Reasoning',
       ],
     },
-  ],
+    {
+      id: 'science', code: 'ISO', short: 'Science', icon: '🔬', rarity: 'uncommon',
+      name: 'SOF International Science Olympiad',
+      date: '2026-10-30', slots: ['2026-11-19', '2026-12-03'],
+      links: 'science',
+      syllabus: [
+        'Living and Non-Living', 'Plants and Their Parts', 'Animals and Their Habitat',
+        'The Human Body', 'Cleanliness, Health and Hygiene', 'Food and Its Components',
+        'Housing and Clothing', 'Forms of Matter — Solids, Liquids, Gases',
+        'Water as a Resource', 'Transport and Communication', 'Weather and Sky',
+        'Light and Sound', 'Logical Reasoning',
+      ],
+    },
+],
 
   /* ---------------------------------------------------------------
      THE RUN-UP PLAN
