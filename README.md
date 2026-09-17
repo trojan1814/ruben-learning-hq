@@ -339,8 +339,10 @@ marking**, 45 minutes online (65 offline).
 | Logical Reasoning | 10 | Patterns, codes, series, mirrors, figures |
 | HOTs | 5 | Two steps of thinking, not one |
 
-**IGKO is the exception** and has its own marking scheme — still 35 questions, but
-**40 marks**, because the Achiever's Section is worth 2 marks each. One hour.
+**IGKO and ICSO are the exceptions.** Both are still 35 questions but **40 marks**,
+because the Achiever's Section is worth 2 marks each, and both run for an hour.
+
+**IGKO**
 
 | Section | Questions | Marks each | Total |
 |---|---|---|---|
@@ -349,6 +351,20 @@ marking**, 45 minutes online (65 offline).
 | Life Skills | 5 | 1 | 5 |
 | Achiever's Section | 5 | **2** | 10 |
 
+**ICSO**
+
+| Section | Questions | Marks each | Total |
+|---|---|---|---|
+| Logical Reasoning | 5 | 1 | 5 |
+| Computer Science | 20 | 1 | 20 |
+| Information Technology | 5 | 1 | 5 |
+| Achiever's Section | 5 | **2** | 10 |
+
+Note how different ICSO is from the shared shape: reasoning drops from 10 questions
+to 5, and a whole Information Technology section appears — AI, robotics, gadgets,
+apps and computerisation. SOF sets its ICSO questions on **Windows 11 and
+MS-Office 2016**, so the menus and shortcuts in the mocks follow those versions.
+
 A subject can carry its own `pattern` and `sections` in `_meta.js`; anything that
 draws a pattern, a timer or a score asks for the subject's version rather than the
 default. Scores are weighted by **marks**, so 30 of 35 questions right on an IGKO
@@ -356,9 +372,25 @@ paper is 75%, not 86%.
 
 ### Mock papers
 
-**One full mock for each of the four subject papers, and ten for GK — 490 questions
-in all**, written to the exact section split for that exam and modelled on published
-previous-year Class 3 papers. Every question has a worked explanation.
+**One full mock each for Science, Maths and English, ten for GK and fifteen for
+Computer Science — 980 questions in all**, written to the exact section split for
+that exam and modelled on published previous-year Class 3 papers. Every question has
+a worked explanation.
+
+| Paper | Mocks | Questions |
+|---|---|---|
+| ICSO Computer Science | 15 | 525 |
+| IGKO General Knowledge | 10 | 350 |
+| IEO English | 1 | 35 |
+| IMO Maths | 1 | 35 |
+| ISO Science | 1 | 35 |
+
+The fifteen ICSO papers are written against SOF's published Class 3 syllabus section
+by section. One honest limitation: the reasoning syllabus includes figure matrices,
+embedded figures and mirror images of shapes, which need a picture to be asked
+properly. Until the quiz runner can show an image per question, that section leans on
+the topics that work in text — patterns, coding-decoding, ranking, analogy,
+classification, geometry by description, and clock and calendar.
 
 The ten IGKO papers are built from the 250+ question bank in
 `books/General-Knowledge/`, topped up with fresh Class 3 questions to fill the
@@ -561,7 +593,7 @@ public/css/pages.css   olympiad, schedule and hobbies components
 public/js/theme.js     >> ALL THREE THEMES <<  every label, icon, name and result screen
 public/js/data.js      subject metadata, games, quests, battle pass
 public/js/curriculum/  >> ALL LESSONS & QUESTIONS <<  one file per subject
-public/js/olympiad/    SOF Olympiad: exam facts, run-up plan, 14 mock papers
+public/js/olympiad/    SOF Olympiad: exam facts, run-up plan, 28 mock papers
 public/js/schedule.js  the editable weekly timetable
 public/js/news.js      the News Desk page
 public/js/hobbies/     piano, golf, AI and 3D printing — one file each

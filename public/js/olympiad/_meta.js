@@ -107,11 +107,53 @@ const OLYMPIAD = {
       name: 'SOF International Computer Science Olympiad',
       date: '2026-09-24', slots: ['2026-12-17'],
       links: 'computer-science',
+
+      /* ICSO is the second paper that does not fit the shared shape. Per SOF's
+         published Class 3-4 marking scheme it is four sections and 35 questions
+         but 40 marks, because the Achiever's Section is worth 2 marks each.
+         One hour. Questions are set on Windows 11 and MS-Office 2016. */
+      pattern: {
+        total: 35, lr: 5, cs: 20, it: 5, ach: 5,
+        marksPerQ: 1, totalMarks: 40,
+        minutesOnline: 60, minutesOffline: 60,
+        negative: false,
+      },
+      sections: {
+        lr:  { key: 'lr',  label: 'Logical Reasoning', icon: '🧩', marks: 1,
+               blurb: '5 questions on patterns, codes, ranking, shapes and the calendar.' },
+        cs:  { key: 'cs',  label: 'Computer Science', icon: '💻', marks: 1,
+               blurb: '20 questions on hardware, storage, the internet, MS-Paint and MS-Word.' },
+        it:  { key: 'it',  label: 'Information Technology', icon: '🤖', marks: 1,
+               blurb: '5 questions on AI, robotics, gadgets, apps and computerisation.' },
+        ach: { key: 'ach', label: 'Achiever\'s Section', icon: '🏅', marks: 2,
+               blurb: '5 harder questions from the two computer sections — 2 marks each.' },
+      },
+
+      /* SOF's published ICSO Class 3 syllabus, section by section. */
       syllabus: [
-        'Fundamentals of Computer', 'Parts of a Computer', 'Input and Output Devices',
-        'Storage Devices', 'Uses of Computers', 'Introduction to the Internet',
-        'MS-Paint', 'Introduction to MS-Word', 'Latest Developments in IT',
-        'Logical Reasoning',
+        'Patterns',
+        'Analogy and Classification',
+        'Alphabet Test',
+        'Coding-Decoding',
+        'Ranking Test',
+        'Grouping of Figures and Figure Matrix',
+        'Mirror Images',
+        'Geometrical Shapes',
+        'Embedded Figures',
+        'Possible Combinations',
+        'Clock and Calendar',
+        'Fundamentals of Computer',
+        'Parts of a Computer',
+        'Memory and Storage Devices',
+        'Uses of Computers',
+        'Input and Output Devices',
+        'Introduction to Internet',
+        'MS-Paint',
+        'Introduction to MS-Word',
+        'Introduction to AI',
+        'Robotics',
+        'IT Gadgets, Devices and Apps',
+        'Computerization and Developments in IT',
       ],
     },
     {
