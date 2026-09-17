@@ -310,26 +310,28 @@ tab and pays **+5 XP**, capped at 5 stories a day so it stays a nudge rather tha
 grind. Each page ends with five **"Talk about it"** questions — retell it, who does it
 affect, how do they know, what would you do, what else do you want to know.
 
-## 🇮🇳 Olympiad Ops — Indian Talent Olympiad prep
+## 🇮🇳 Olympiad Ops — SOF prep
 
-Four Class 3 exams, prepped properly. Everything on this page comes from
-[indiantalent.org](https://www.indiantalent.org) as published in August 2026.
+Five Class 3 exams, prepped properly, against the published
+[SOF](https://sofworld.org) 1st Level schedule for 2026-27.
 
-| Exam | Subject | Round 1 | Slot 2 |
+| Exam | Subject | Earliest date | Other slots |
 |---|---|---|---|
-| **ICO** International Computer Olympiad | Computer | Tue 1 Dec 2026 | 4 Jan 2027 |
-| **EIO** English International Olympiad | English | Thu 3 Dec 2026 | 7 Jan 2027 |
-| **ISO** International Science Olympiad | Science | Fri 4 Dec 2026 | 8 Jan 2027 |
-| **IMO** International Maths Olympiad | Maths | Sat 5 Dec 2026 | 9 Jan 2027 |
+| **IGKO** International General Knowledge Olympiad | GK | Tue 22 Sep 2026 | 6 Oct · 3 Nov |
+| **ICSO** International Computer Science Olympiad | Computer | Thu 24 Sep 2026 | 17 Dec |
+| **IEO** International English Olympiad | English | Wed 30 Sep 2026 | 27 Oct · 17 Nov |
+| **IMO** International Mathematics Olympiad | Maths | Fri 23 Oct 2026 | 26 Nov · 10 Dec |
+| **ISO** International Science Olympiad | Science | Fri 30 Oct 2026 | 19 Nov · 3 Dec |
 
-**Individual registration closes 30 October 2026.** The page shows a live countdown
-to each exam and to that deadline. ITO calls these dates tentative and confirms them
-about 20 days beforehand — check before relying on them.
+**SOF does not take individual entries** — the school registers students and also
+picks *which* of those slots to use. Every date the app shows is the earliest one
+SOF publishes for that paper, which is the only safe assumption until the school
+confirms. Check the chosen dates with them.
 
 ### The paper
 
-For Classes 1–4 every subject uses the same shape: **35 questions, 1 mark each,
-no negative marking**, 45 minutes online (65 offline).
+Four of the five use the same shape: **35 questions, 1 mark each, no negative
+marking**, 45 minutes online (65 offline).
 
 | Section | Questions | What it tests |
 |---|---|---|
@@ -337,11 +339,42 @@ no negative marking**, 45 minutes online (65 offline).
 | Logical Reasoning | 10 | Patterns, codes, series, mirrors, figures |
 | HOTs | 5 | Two steps of thinking, not one |
 
+**IGKO is the exception** and has its own marking scheme — still 35 questions, but
+**40 marks**, because the Achiever's Section is worth 2 marks each. One hour.
+
+| Section | Questions | Marks each | Total |
+|---|---|---|---|
+| General Awareness | 20 | 1 | 20 |
+| Current Affairs | 5 | 1 | 5 |
+| Life Skills | 5 | 1 | 5 |
+| Achiever's Section | 5 | **2** | 10 |
+
+A subject can carry its own `pattern` and `sections` in `_meta.js`; anything that
+draws a pattern, a timer or a score asks for the subject's version rather than the
+default. Scores are weighted by **marks**, so 30 of 35 questions right on an IGKO
+paper is 75%, not 86%.
+
 ### Mock papers
 
-**One full 35-question mock per subject — 140 questions in all**, written to that exact
-20 / 10 / 5 split and modelled on published previous-year Class 3 papers. Every question
-has a worked explanation.
+**One full mock for each of the four subject papers, and ten for GK — 490 questions
+in all**, written to the exact section split for that exam and modelled on published
+previous-year Class 3 papers. Every question has a worked explanation.
+
+The ten IGKO papers are built from the 250+ question bank in
+`books/General-Knowledge/`, topped up with fresh Class 3 questions to fill the
+syllabus evenly. **The bank was not copied as-is** — it contains real errors (it
+credits *Jyotipunj* to Mahatma Gandhi rather than Narendra Modi, *My Truth* to
+Amrita Pritam rather than Indira Gandhi, gives 101 as the road-accident number when
+101 is the fire brigade, and claims five Hockey World Cup wins instead of one), so
+every fact was re-checked and the shakier claims were dropped.
+
+> ⚠️ **Current Affairs goes stale.** That section is the one part of the GK papers
+> with a shelf life. Re-check those five questions per paper against the news before
+> he sits the real thing.
+
+Options are shuffled on every attempt. Without that the answer keys are badly
+lopsided — the Science paper is 60% "b" and never once "d" — and spotting that
+pattern is worth more marks than the actual knowledge.
 
 Two ways to sit one:
 
@@ -528,7 +561,7 @@ public/css/pages.css   olympiad, schedule and hobbies components
 public/js/theme.js     >> ALL THREE THEMES <<  every label, icon, name and result screen
 public/js/data.js      subject metadata, games, quests, battle pass
 public/js/curriculum/  >> ALL LESSONS & QUESTIONS <<  one file per subject
-public/js/olympiad/    Indian Talent Olympiad: exam facts, plan, 4 mock papers
+public/js/olympiad/    SOF Olympiad: exam facts, run-up plan, 14 mock papers
 public/js/schedule.js  the editable weekly timetable
 public/js/news.js      the News Desk page
 public/js/hobbies/     piano, golf, AI and 3D printing — one file each

@@ -20,6 +20,13 @@ const OlympiadView = {
   },
 
   subject(id) { return OLYMPIAD.subjects.find((s) => s.id === id); },
+
+  /* A subject may override the exam shape — IGKO does. Everything that
+     draws a pattern, a section or a timer has to ask for the subject's
+     own version rather than reading the defaults straight off OLYMPIAD. */
+  patternOf(id) { const s = this.subject(id); return (s && s.pattern) || OLYMPIAD.pattern; },
+  sectionsOf(id) { const s = this.subject(id); return (s && s.sections) || OLYMPIAD.sections; },
+  marksOf(id, sec) { const d = this.sectionsOf(id)[sec]; return (d && d.marks) || 1; },
   papers(id) { return OLYMPIAD_PAPERS[id] || []; },
   attempt(sid, pid) { return this.store().attempts[sid + '|' + pid] || null; },
 
@@ -53,7 +60,6 @@ const OlympiadView = {
       .map((s) => ({ s, d: daysUntil(s.date) }))
       .sort((a, b) => a.d - b.d);
     const next = upcoming.find((x) => x.d >= 0) || upcoming[0];
-    const regLeft = daysUntil(OLYMPIAD.registerBy);
     const week = this.currentWeek();
     const weeksLeft = Math.max(0, Math.ceil(daysUntil(next.s.date) / 7));
 
@@ -87,12 +93,13 @@ const OlympiadView = {
         </div>
       </div>
 
-      ${regLeft >= 0 ? `<div class="notice reg-notice">
-        <b>⏳ Registration closes ${fmtDate(OLYMPIAD.registerBy)}</b> — that is ${regLeft} day${regLeft === 1 ? '' : 's'} from today.
-        Individual entries go through
-        <a class="hi-code" href="${OLYMPIAD.registerUrl}" target="_blank" rel="noopener">indiantalent.org</a>.
-        Dates are ITO's published tentative schedule; they confirm about 20 days before.
-      </div>` : ''}
+      <div class="notice reg-notice">
+        <b>🏫 Entries go through his school.</b> ${esc(OLYMPIAD.orgShort)} does not take individual
+        registrations — the school enters students and also chooses which of the published
+        date slots to use, so confirm the chosen dates with them:
+        <a class="hi-code" href="${OLYMPIAD.registerUrl}" target="_blank" rel="noopener">sofworld.org</a>.
+        Every date shown here is the <b>earliest</b> slot ${esc(OLYMPIAD.orgShort)} publishes for that paper.
+      </div>
 
       <div class="section-head"><h2>📊 Readiness</h2><div class="rule"></div>
         <span class="pill">${overall}% overall</span></div>
@@ -110,7 +117,7 @@ const OlympiadView = {
               </div>
               <h3>${esc(s.short)}</h3>
               <div class="tagline">${fmtDate(s.date)}${d >= 0 ? ' · in ' + d + ' days' : ''}</div>
-              <div class="blurb">${s.syllabus.length} chapters · ${OLYMPIAD.pattern.total} questions · ${OLYMPIAD.pattern.minutesOnline} min</div>
+              <div class="blurb">${s.syllabus.length} chapters · ${this.patternOf(s.id).total} questions · ${this.patternOf(s.id).minutesOnline} min</div>
               <div class="mcard-foot">
                 <div class="mcard-stats">
                   <span><b>${r.taken ? r.pct + '%' : '—'}</b> best</span>
@@ -126,8 +133,8 @@ const OlympiadView = {
         <span class="pill">${weeksLeft} week${weeksLeft === 1 ? '' : 's'} left</span></div>
 
       <div class="notice">
-        <b>Fourteen weeks, three phases.</b> Learn the syllabus (weeks 1–5), learn the exam (6–10),
-        then rehearse it under the clock (11–14). Tick a week off when it is done.
+        <b>Eight weeks, aimed at the earliest slot for each paper.</b> GK and Computer come first,
+        then English, then a clear run at Maths and Science. Tick a week off when it is done.
       </div>
 
       <div class="plan-list">
@@ -196,7 +203,8 @@ const OlympiadView = {
     if (!s) return this.index();
     document.getElementById('pageTitle').textContent = s.short + ' Olympiad';
     const d = daysUntil(s.date);
-    const p = OLYMPIAD.pattern;
+    const p = this.patternOf(id);
+    const secDefs = this.sectionsOf(id);
     const linked = SUBJECTS.find((x) => x.id === s.links);
 
     return `
@@ -206,15 +214,17 @@ const OlympiadView = {
         <div class="big-icon">${s.icon}</div>
         <div style="flex:1">
           <h2>${esc(s.name)}</h2>
-          <div class="tagline">${esc(s.code)} · Round 1 on ${fmtDate(s.date)}${d >= 0 ? ' · ' + d + ' days away' : ''}</div>
-          <div class="tiny muted" style="margin-top:7px">Second slot: ${fmtDate(s.slot2)} · ${esc(OLYMPIAD.grade)}</div>
+          <div class="tagline">${esc(s.code)} · Earliest date ${fmtDate(s.date)}${d >= 0 ? ' · ' + d + ' days away' : ''}</div>
+          <div class="tiny muted" style="margin-top:7px">${(s.slots || []).length
+            ? 'Other slots the school may pick: ' + s.slots.map(fmtDate).join(' · ')
+            : 'No alternative slot published'} · ${esc(OLYMPIAD.grade)}</div>
         </div>
         <span class="rarity-tag" style="--rarity:var(--r-${s.rarity})">${esc(s.code)}</span>
       </div>
 
       <div class="section-head"><h2>📝 The paper</h2><div class="rule"></div></div>
       <div class="grid">
-        ${Object.values(OLYMPIAD.sections).map((sec) => `
+        ${Object.values(secDefs).map((sec) => `
           <div class="panel clip pat-card">
             <span class="p-ico">${sec.icon}</span>
             <div class="p-n">${p[sec.key]}</div>
@@ -243,21 +253,23 @@ const OlympiadView = {
       <div class="section-head" style="margin-top:28px"><h2>🧪 Mock papers</h2><div class="rule"></div></div>
       ${this.papers(id).map((paper) => {
         const a = this.attempt(id, paper.id);
-        const counts = { core: 0, lr: 0, hots: 0 };
+        const counts = {};
+        Object.keys(secDefs).forEach((k) => { counts[k] = 0; });
         paper.questions.forEach((q) => { counts[q.sec] = (counts[q.sec] || 0) + 1; });
+        const marks = paper.questions.reduce((n, q) => n + this.marksOf(id, q.sec), 0);
         return `
           <div class="panel clip mock-row" style="--rarity:var(--r-${s.rarity})">
             <div class="mock-body">
               <h4>${esc(paper.title)}</h4>
-              <div class="mock-meta">${paper.questions.length} questions · ${counts.core} subject + ${counts.lr} reasoning + ${counts.hots} HOTs</div>
+              <div class="mock-meta">${paper.questions.length} questions · ${marks} marks · ${Object.keys(secDefs).map((k) => counts[k] + ' ' + secDefs[k].label.toLowerCase()).join(' + ')}</div>
               ${a ? `<div class="mock-scores">
                   <span class="score-chip ${a.best >= 80 ? '' : a.best >= 60 ? 'mid' : 'low'}">Best ${a.best}%</span>
                   <span class="tiny muted">${a.n} attempt${a.n === 1 ? '' : 's'} · last ${a.last}% on ${fmtDate(a.at.slice(0, 10))}</span>
                 </div>
                 <div class="sec-bars">
-                  ${['core', 'lr', 'hots'].map((k) => `
+                  ${Object.keys(secDefs).map((k) => `
                     <div class="sec-bar">
-                      <span>${OLYMPIAD.sections[k].label}</span>
+                      <span>${secDefs[k].label}</span>
                       <div class="xpbar thin"><span style="width:${a.secs && a.secs[k] != null ? a.secs[k] : 0}%"></span></div>
                       <b>${a.secs && a.secs[k] != null ? a.secs[k] + '%' : '—'}</b>
                     </div>`).join('')}

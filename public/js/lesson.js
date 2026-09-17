@@ -168,7 +168,11 @@ const Quiz = {
 
   /**
    * Run an Olympiad mock paper. Questions keep their published order so the
-   * three sections stay together, exactly like the real paper.
+   * sections stay together, exactly like the real paper — but the OPTIONS
+   * inside each question are shuffled, the way the unit quizzes already do it.
+   * Without that the answer keys are badly lopsided (the Science paper is 60%
+   * 'b' and never once 'd'), which is a pattern worth more marks than the
+   * actual general knowledge.
    */
   startOlympiad(sid, pid, timed) {
     const paper = (OLYMPIAD_PAPERS[sid] || []).find((p) => p.id === pid);
@@ -176,10 +180,17 @@ const Quiz = {
     this.stopTimer();
     this.oly = { sid, pid, paper, timed: !!timed };
     this.sid = sid; this.uid = pid; this.unit = { title: paper.title, questions: paper.questions };
-    this.qs = paper.questions.map((q) => Object.assign({}, q));
+    this.qs = paper.questions.map((q) => {
+      if (q.t !== 'mcq') return Object.assign({}, q);
+      const order = shuffled(q.o.map((_, i) => i));
+      return Object.assign({}, q, {
+        o: order.map((i) => q.o[i]),
+        a: order.indexOf(q.a),
+      });
+    });
     this.idx = 0; this.answers = []; this.checked = false;
     this.picked = null; this.matchState = null; this.finished = false;
-    this.endsAt = timed ? Date.now() + OLYMPIAD.pattern.minutesOnline * 60000 : null;
+    this.endsAt = timed ? Date.now() + OlympiadView.patternOf(sid).minutesOnline * 60000 : null;
   },
 
   /* ---------- exam timer ---------- */
@@ -338,15 +349,24 @@ const Quiz = {
     this.render();
   },
 
-  /** Score a mock paper: overall, plus a percentage for each of the 3 sections. */
+  /**
+   * Score a mock paper: overall, plus a percentage for each section.
+   * Sections come from the subject, not a fixed list, and the overall score
+   * is weighted by MARKS rather than by question count — IGKO's Achiever's
+   * Section is worth 2 marks a question, so 35 questions are 40 marks.
+   */
   finishOlympiad() {
     this.stopTimer();
     const total = this.qs.length;
     const right = this.answers.filter(Boolean).length;
-    const pct = Math.round(right / total * 100);
+    const secDefs = OlympiadView.sectionsOf(this.oly.sid);
+    const markOf = (q) => (secDefs[q.sec] && secDefs[q.sec].marks) || 1;
+    const maxMarks = this.qs.reduce((n, q) => n + markOf(q), 0);
+    const gotMarks = this.qs.reduce((n, q, i) => n + (this.answers[i] ? markOf(q) : 0), 0);
+    const pct = Math.round(gotMarks / maxMarks * 100);
 
     const secs = {};
-    ['core', 'lr', 'hots'].forEach((k) => {
+    Object.keys(secDefs).forEach((k) => {
       const idxs = this.qs.map((q, i) => (q.sec === k ? i : -1)).filter((i) => i > -1);
       if (!idxs.length) return;
       const got = idxs.filter((i) => this.answers[i]).length;
@@ -373,7 +393,8 @@ const Quiz = {
     else if (pct >= 60) { bonusXp = 25; coins = 8; }
 
     const earnedXp = right * XP_PER_CORRECT + bonusXp;
-    this.result = { right, total, pct, bonusXp, coins, earnedXp, secs, passed: pct >= 60 };
+    this.result = { right, total, pct, bonusXp, coins, earnedXp, secs,
+                    marks: { got: gotMarks, max: maxMarks }, passed: pct >= 60 };
 
     save();
     if (typeof addXp === 'function' && earnedXp > 0) {
